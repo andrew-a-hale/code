@@ -1,1 +1,2 @@
-# Random small scripts
+Random small scripts
+
