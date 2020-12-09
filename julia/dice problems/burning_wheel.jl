@@ -43,11 +43,11 @@ function problemTwo()
     successCount
 end
 
-N = 1000000000
+N = 1000000
 
 xCounter = 0
 for i = 1:N
-    if problemOne(1) >= 25
+    if problemOne(1) >= 11
         xCounter += 1
     end
 end
