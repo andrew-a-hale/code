@@ -36,14 +36,12 @@ solveGrid <- function(grid) {
       grid[c] <- cs
     }
     else if (is.null(cs)) {
-      #SAVED_GUESSES <<- append(SAVED_GUESSES, list(LAST_GUESS))
       return(startGrid)
     }
   }
   if (identical(grid, tmpGrid)) {
     c <- which(grid == 0)[1]
     grid[c] <- sample(getCandidates(grid, c), 1)
-    #LAST_GUESS <<- list("cell" = c, "guess" = grid[[c]])
   }
   grid
 }
