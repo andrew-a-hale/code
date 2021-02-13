@@ -1,5 +1,6 @@
 ## TODO: change random guessing to smart guessing (don't guess the same thing twice)
 
+logger::log_threshold(level = logger::INFO)
 rm(list = ls())
 source("utils.R")
 source("sudoku-helpers.R")
@@ -11,11 +12,12 @@ cat("----------------\n")
 n <- 0
 startGrid <- currentGrid
 FULL_SET <- 1:nrow(startGrid)
-SAVED_GUESSES <- list()
-LAST_GUESS <- list()
+logger::log_tictoc(level = logger::TRACE)
 while (0 %in% currentGrid) {
   currentGrid <- solveGrid(currentGrid)
   n <- n + 1
+  if (n %% 100 == 0) logger::log_info("iteration {n}")
 }
-print(paste("finished on iteration", n))
+logger::log_success("finished on iteration {n}")
+logger::log_tictoc(level = logger::INFO)
 print.sudoku(currentGrid)
