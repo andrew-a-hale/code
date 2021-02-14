@@ -27,6 +27,7 @@ f <- function(s) {
   gsub("\"", "", gsub("list", "", paste0("[", paste(r, collapse = ", "), "]")))
 }
 
-f(paste0(rep("aaaabbbccadd", 1e5), collapse = ""))
+f("aaaabbbcca")
 
-
+a <- rle(strsplit("aaaabbbcca", "")[[1]])
+paste0("[(", paste(paste(a$values, a$lengths, sep = ", "), collapse = "), ("), ")]")
