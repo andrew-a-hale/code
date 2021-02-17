@@ -1,0 +1,11 @@
+INFO [2021-02-17 18:47:29] backup job started!
+INFO [2021-02-17 18:47:30] _lastsave.txt backed up
+INFO [2021-02-17 18:47:30] craft.txt backed up
+INFO [2021-02-17 18:47:30] as.txt backed up
+INFO [2021-02-17 18:47:30] b.txt backed up
+INFO [2021-02-17 18:47:30] d.txt backed up
+INFO [2021-02-17 18:47:30] craft.txt backed up
+INFO [2021-02-17 18:47:30] m.txt backed up
+INFO [2021-02-17 18:47:30] r.txt backed up
+INFO [2021-02-17 18:47:30] craft.txt backed up
+SUCCESS [2021-02-17 18:47:30] backup job completed!

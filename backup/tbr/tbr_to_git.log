@@ -1,0 +1,12 @@
+INFO [2021-02-17 18:47:35] tbr to git start
+'.\to_git.sh' is not recognized as an internal or external command,
+operable program or batch file.
+Warning message:
+In shell(".\\to_git.sh") : '.\to_git.sh' execution failed with error code 1
+INFO [2021-02-17 18:47:35] tbr to git end
+INFO [2021-02-17 18:48:54] tbr to git start
+'.\to_git.sh' is not recognized as an internal or external command,
+operable program or batch file.
+Warning message:
+In shell(".\\to_git.sh") : '.\to_git.sh' execution failed with error code 1
+INFO [2021-02-17 18:48:54] tbr to git end

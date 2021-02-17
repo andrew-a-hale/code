@@ -1,0 +1,33 @@
+function PreloadFiles takes nothing returns nothing
+
+	call PreloadStart()
+	call Preload( "" )
+	call SetPlayerName(Player(10), "-load CLN}=HVBUF2fObOnn4`KMF!B;FhFWJfQpFOelI:kGiGXX=hFoOLF#V")
+
+
+// Andy#1124 | Barbarian 200 | XP 21165536
+// STR 3210 | AGI 275 | INT 15 | Abilities 8 8 8 8 8 0
+// AS 100 | Gold 78850 | Mats 72923
+//" )
+	call Preload( "" )
+// Items: Adamantium Tower, Soul Blade
+// Items: Thundering Hammer of Zeus, Mighty Olympian Regalia
+// Items: Adamantium Helm, Battleforge Regalia
+//" )
+	call Preload( "" )
+// Home: Towering Shield of Athena, Shimmering Lance
+// Home: Unyielding Breastplate of Strength, Adamantium Lance
+// Home: Olympian Gemstone Fragments, --Empty--
+
+
+
+//" )
+	call Preload( "" )
+endfunction
+function anothing takes nothing returns nothing
+ //" )
+	call PreloadEnd( 0.0 )
+
+endfunction
+
+

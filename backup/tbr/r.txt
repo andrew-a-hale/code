@@ -1,0 +1,33 @@
+function PreloadFiles takes nothing returns nothing
+
+	call PreloadStart()
+	call Preload( "" )
+	call SetPlayerName(Player(10), "-load YdX&Tec$_QITSQ{2_eDQ@Q?AGWdQRQgQ}QZZUUqoQy:hln.Qzx0Q`a")
+
+
+// Andy#1124 | Ranger 106 | XP 2263870
+// STR 373 | AGI 363 | INT 13 | Abilities 6 5 6 6 5 6
+//  0 | Gold 320942 | Mats 17766
+//" )
+	call Preload( "" )
+// Items: Ironwood Regalia, Dark Wizard's Dagger
+// Items: Armor of Hera, Armor of Zeus
+// Items: Thunder Lance, Bright Lance
+//" )
+	call Preload( "" )
+// Home: Heart Blade, Heart Blade
+// Home: Savage War Axe of Hephaestus, Shining Sword of the Olympians
+// Home: --Empty--, --Empty--
+
+
+
+//" )
+	call Preload( "" )
+endfunction
+function anothing takes nothing returns nothing
+ //" )
+	call PreloadEnd( 0.0 )
+
+endfunction
+
+

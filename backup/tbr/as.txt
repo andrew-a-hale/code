@@ -1,0 +1,33 @@
+function PreloadFiles takes nothing returns nothing
+
+	call PreloadStart()
+	call Preload( "" )
+	call SetPlayerName(Player(10), "-load hei:.bpTo_K`k[pnu^;_ga)LT_b_i_zk2_iyf$+(a_a(*(S_+eU_zo")
+
+
+// Andy#1124 | Assassin 200 | XP 21165536
+// STR 539 | AGI 2946 | INT 15 | Abilities 8 8 8 8 8 0
+// WS 100 | Gold 838655 | Mats 90412
+//" )
+	call Preload( "" )
+// Items: Blazing Sword of Helios, Aphrodite's Favor
+// Items: Warrior's Talisman of Serious Addiction, Night Regalia
+// Items: Adamantium Lance, Mighty Olympian Regalia
+//" )
+	call Preload( "" )
+// Home: Hephaestus' Thundering Axe, Bright Lance
+// Home: Biting Blade, --Empty--
+// Home: --Empty--, --Empty--
+
+
+
+//" )
+	call Preload( "" )
+endfunction
+function anothing takes nothing returns nothing
+ //" )
+	call PreloadEnd( 0.0 )
+
+endfunction
+
+

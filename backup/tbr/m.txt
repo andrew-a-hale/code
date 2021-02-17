@@ -1,0 +1,33 @@
+function PreloadFiles takes nothing returns nothing
+
+	call PreloadStart()
+	call Preload( "" )
+	call SetPlayerName(Player(10), "-load qhl@*Ll@TZc[ZZfjjZ)ZDZJZPZZ][Z]Z)ZeZ^Z]jZZKPn({Z'8KZji")
+
+
+// Andy#1124 | Magician 87 | XP 1297070
+// STR 279 | AGI 16 | INT 260 | Abilities 6 6 6 6 6 0
+//  0 | Gold 84749 | Mats 6973
+//" )
+	call Preload( "" )
+// Items: Eris' Golden Apple of Discord, Green Dragonscale Ring
+// Items: Staff of Poseidon, Orb of Chill Midnight
+// Items: Gemstone of Power, Robes of Power
+//" )
+	call Preload( "" )
+// Home: --Empty--, --Empty--
+// Home: --Empty--, --Empty--
+// Home: --Empty--, --Empty--
+
+
+
+//" )
+	call Preload( "" )
+endfunction
+function anothing takes nothing returns nothing
+ //" )
+	call PreloadEnd( 0.0 )
+
+endfunction
+
+

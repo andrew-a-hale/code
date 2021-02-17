@@ -1,0 +1,33 @@
+function PreloadFiles takes nothing returns nothing
+
+	call PreloadStart()
+	call Preload( "" )
+	call SetPlayerName(Player(10), "-load ;!$QDx**:vc9)4'8E9Rb}wk*lv53=yk$Kv!6!wj>wBw#;G5vC)9vD)")
+
+
+// Andy#1124 | Druid 200 | XP 21165536
+// STR 810 | AGI 100 | INT 2167 | Abilities 8 8 8 8 8 0
+// GS 100 | Gold 809398 | Mats 119731
+//" )
+	call Preload( "" )
+// Items: Sacred Olympian Regalia, Wizard's Respite
+// Items: Wild Regalia, Talisman of Serious Addiction
+// Items: Blackfire Staff, Bright Silver Plates
+//" )
+	call Preload( "" )
+// Home: Regal Helm of Sparkling Crystal, Magefire Ring
+// Home: Staff of Poseidon, Gemstone of the Olympians
+// Home: Gift of Hera, --Empty--
+
+
+
+//" )
+	call Preload( "" )
+endfunction
+function anothing takes nothing returns nothing
+ //" )
+	call PreloadEnd( 0.0 )
+
+endfunction
+
+
