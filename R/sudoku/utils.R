@@ -1,5 +1,7 @@
+#' @export
 print.sudoku <- function(grid) {
-  purrr::walk(
+  box::use(purrr[walk])
+  walk(
     1:nrow(grid),
     function(.x) {
       cat(unlist(grid[.x, ]), "\n")
@@ -7,8 +9,12 @@ print.sudoku <- function(grid) {
   )
 }
 
+#' @export
 floorToClosestN <- function(x, n) {
   (((x - 1) %/% n) * n)
 }
+
+#' @export
+`%notin%` <- Negate(`%in%`)
 
 

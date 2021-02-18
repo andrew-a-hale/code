@@ -18,3 +18,5 @@ INFO [2021-02-18 20:35:45] tbr to git start
 Error in setwd("C:\\Users\\derpi\\Documents\\Warcraft III\\CustomMapData\\TBR Saves\\v1.39\\backup\\tbr") : 
   cannot change working directory
 Execution halted
+INFO [2021-02-18 20:38:31] tbr to git start
+INFO [2021-02-18 20:38:38] tbr to git end
