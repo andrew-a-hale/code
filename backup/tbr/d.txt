@@ -2,12 +2,12 @@ function PreloadFiles takes nothing returns nothing
 
 	call PreloadStart()
 	call Preload( "" )
-	call SetPlayerName(Player(10), "-load yuf;Xcq.eaL!eEPS.H=aha#*UaZ}&a?l5aj.lav-b`bP.YDa,PFazt")
+	call SetPlayerName(Player(10), "-load PiX.LUe*WS@sYiVG`n0SZTt6ISOqvS2_(S]y_Sj}TrT+`M&S|Y}Sbf")
 
 
 // Andy#1124 | Druid 200 | XP 21165536
 // STR 999 | AGI 5 | INT 2496 | Abilities 8 8 8 8 8 0
-// GS 100 | Gold 581906 | Mats 38242
+// GS 100 | Gold 733178 | Mats 52021
 //" )
 	call Preload( "" )
 // Items: Wild Regalia, Searing Flame of Prometheus
@@ -15,8 +15,8 @@ function PreloadFiles takes nothing returns nothing
 // Items: Wizard's Respite, Talisman of Serious Addiction
 //" )
 	call Preload( "" )
-// Home: Regal Helm of Sparkling Crystal, Thundering Hammer of Zeus
-// Home: Olympian Gemstone Fragments, Shimmering Lance
+// Home: Regal Helm of Sparkling Crystal, Olympian Gemstone Fragments
+// Home: Thundering Hammer of Zeus, Shimmering Lance
 // Home: --Empty--, --Empty--
 
 

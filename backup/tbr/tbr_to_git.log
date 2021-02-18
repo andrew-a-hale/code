@@ -10,3 +10,11 @@ operable program or batch file.
 Warning message:
 In shell(".\\to_git.sh") : '.\to_git.sh' execution failed with error code 1
 INFO [2021-02-17 18:48:54] tbr to git end
+INFO [2021-02-18 19:31:07] tbr to git start
+Error in setwd("C:\\Users\\derpi\\Documents\\Warcraft III\\CustomMapData\\TBR Saves\\v1.39\\backup\\tbr") : 
+  cannot change working directory
+Execution halted
+INFO [2021-02-18 20:35:45] tbr to git start
+Error in setwd("C:\\Users\\derpi\\Documents\\Warcraft III\\CustomMapData\\TBR Saves\\v1.39\\backup\\tbr") : 
+  cannot change working directory
+Execution halted
