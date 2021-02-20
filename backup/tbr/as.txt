@@ -2,12 +2,12 @@ function PreloadFiles takes nothing returns nothing
 
 	call PreloadStart()
 	call Preload( "" )
-	call SetPlayerName(Player(10), "-load hei:.bpTo_K`k[pnu^;_ga)LT_b_i_zk2_iyf$+(a_a(*(S_+eU_zo")
+	call SetPlayerName(Player(10), "-load fnrD8ky`xiT+xf3w`_Eipj3U^iUiri't;ir&o.52j2j;42Ni5p^iYy")
 
 
 // Andy#1124 | Assassin 200 | XP 21165536
 // STR 539 | AGI 2946 | INT 15 | Abilities 8 8 8 8 8 0
-// WS 100 | Gold 838655 | Mats 90412
+// WS 100 | Gold 1000000 | Mats 122883
 //" )
 	call Preload( "" )
 // Items: Blazing Sword of Helios, Aphrodite's Favor
@@ -16,7 +16,7 @@ function PreloadFiles takes nothing returns nothing
 //" )
 	call Preload( "" )
 // Home: Hephaestus' Thundering Axe, Bright Lance
-// Home: Biting Blade, --Empty--
+// Home: Biting Blade, Olympian Gemstone Fragments
 // Home: --Empty--, --Empty--
 
 

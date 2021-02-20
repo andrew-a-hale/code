@@ -2,21 +2,21 @@ function PreloadFiles takes nothing returns nothing
 
 	call PreloadStart()
 	call Preload( "" )
-	call SetPlayerName(Player(10), "-load Y]Ti:WHAE7.==7FK_b)7O8#&,>8787H7d7AA;>VT77>,QSF7at`7hE")
+	call SetPlayerName(Player(10), "-load fnrD8ky`xiT+xf3w`_Eipj3U^iUiri't;ir&o.52j2j;42Ni5p^iYy")
 
 
-// Andy#1124 | Ranger 125 | XP 3772449
-// STR 392 | AGI 562 | INT 13 | Abilities 6 5 6 6 5 6
-//  0 | Gold 816697 | Mats 46561
+// Andy#1124 | Assassin 200 | XP 21165536
+// STR 539 | AGI 2946 | INT 15 | Abilities 8 8 8 8 8 0
+// WS 100 | Gold 1000000 | Mats 122883
 //" )
 	call Preload( "" )
-// Items: Ironwood Regalia, Dark Wizard's Dagger
-// Items: Armor of the Firstborn, Shining Sword of the Olympians
-// Items: Thunder Lance, Bright Lance
+// Items: Blazing Sword of Helios, Aphrodite's Favor
+// Items: Warrior's Talisman of Serious Addiction, Night Regalia
+// Items: Adamantium Lance, Mighty Olympian Regalia
 //" )
 	call Preload( "" )
-// Home: Heart Blade, Heart Blade
-// Home: Savage War Axe of Hephaestus, --Empty--
+// Home: Hephaestus' Thundering Axe, Bright Lance
+// Home: Biting Blade, Olympian Gemstone Fragments
 // Home: --Empty--, --Empty--
 
 
