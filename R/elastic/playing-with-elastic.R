@@ -1,6 +1,3 @@
-library(magrittr)
-library(jsonlite)
-library(data.table)
 library(elastic)
 
 system(
@@ -11,6 +8,6 @@ system(
 
 conn <- connect()
 
-dt <- data.table(ggplot2::diamonds)
+dt <- ggplot2::diamonds
 
 docs_bulk_index(conn, dt, "diamonds", quiet = TRUE)
