@@ -19,8 +19,9 @@ fChain <- . %>% f %>% g %>% g %>% g %>% g %>% f %>% g
 
 ## a functional that returns a "composed" function
 composeFromCharList <- function(functionList) {
-  fn_list <- purrr::map(functionList, get)
-  purrr::compose(!!!fn_list, .dir = "forward")
+  # create a list of functions from the list of function names
+  fl <- purrr::map(functionList, get) 
+  purrr::compose(!!!fl, .dir = "forward")
 }
 
 ## this composed function will be identical to the chain above
