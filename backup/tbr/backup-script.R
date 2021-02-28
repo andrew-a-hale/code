@@ -4,11 +4,13 @@ logger::log_appender(logger::appender_stdout)
 logger::log_info("backup job started!")
 
 files <- normalizePath(list.files(path, ".txt", full.names = T))
+files <- files[file.mtime(files) > Sys.time() - 86400]
 backup_dir <- "C:\\Users\\derpi\\Documents\\code\\code-main\\backup\\tbr"
 
 if (!dir.exists(backup_dir)) dir.create(backup_dir)
 
 res <- file.copy(files, backup_dir, overwrite = T)
+if (identical(res, logical(0))) logger::log_info("no files to backup")
 
 for (f in seq_along(files)) {
   file <- stringr::str_extract(files[f], "[_a-z]+.txt")

@@ -10,7 +10,7 @@ box::use(
 
 log_threshold(level = INFO)
 
-startGrid <- final
+startGrid <- fiveStar
 currentGrid <- startGrid
 print.sudoku(currentGrid)
 log_tictoc(level = TRACE)
@@ -18,7 +18,7 @@ n <- 0
 while (0 %in% currentGrid) {
   currentGrid <- solveGrid(currentGrid, startGrid)
   n <- n + 1
-  if (n %% 10000 == 0) log_info("iteration {n}")
+  if (n %% 100 == 0) log_info("iteration {n}")
 }
 log_success("finished on iteration {n}")
 log_tictoc(level = INFO)

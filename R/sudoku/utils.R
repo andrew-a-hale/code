@@ -1,6 +1,7 @@
+box::use(purrr[walk])
+
 #' @export
 print.sudoku <- function(grid) {
-  box::use(purrr[walk])
   walk(
     1:nrow(grid),
     function(.x) {
