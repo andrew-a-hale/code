@@ -1,16 +1,9 @@
-logger::log_threshold(logger::TRACE)
-logger::log_appender(logger::appender_stdout)
-IGNORE <- structure(1000L, level = "IGNORE", class = c("loglevel", "integer"))
-
+## without rle
 f <- function(s) {
-  logger::log_tictoc(level = IGNORE)
-  logger::log_info("process initialising...")
   ls <- strsplit(s, "")[[1]]
   r <- list()
   j <- 1
-  logger::log_info("process start!")
   for (i in seq_along(ls)) {
-    if (identical(i %% (length(ls) %/% 10), 0)) logger::log_trace("iteration {i} of {length(ls)}")
     if (identical(i, 1L)) {
       r[[j]] <- list(ls[i], 1)
     }
@@ -22,12 +15,18 @@ f <- function(s) {
       r[[j]][[2]] <- r[[j]][[2]] + 1
     }
   }
-  logger::log_success("process finished!")
-  logger::log_tictoc()
-  gsub("\"", "", gsub("list", "", paste0("[", paste(r, collapse = ", "), "]")))
+  r
 }
 
-f("aaaabbbcca")
+## with rle
+g <- function(s) {
+  r <- rle(strsplit(s, "")[[1]])
+  r
+}
 
-a <- rle(strsplit("aaaabbbcca", "")[[1]])
-paste0("[(", paste(paste(a$values, a$lengths, sep = ", "), collapse = "), ("), ")]")
+jsonlite::toJSON(f("aaaabbbcca"), auto_unbox = T)
+g("aaaabbbcca")[[1]]
+
+## benchmarking
+system.time(f(paste0(rep("aaaabbbcca", 100000), collapse = "")))
+system.time(g(paste0(rep("aaaabbbcca", 100000), collapse = "")))
