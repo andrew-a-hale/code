@@ -28,5 +28,5 @@ jsonlite::toJSON(f("aaaabbbcca"), auto_unbox = T)
 g("aaaabbbcca")[[1]]
 
 ## benchmarking
-system.time(f(paste0(rep("aaaabbbcca", 100000), collapse = "")))
-system.time(g(paste0(rep("aaaabbbcca", 100000), collapse = "")))
+system.time(f(strrep("aaaabbbcca", 100000)))
+system.time(g(strrep("aaaabbbcca", 100000)))
