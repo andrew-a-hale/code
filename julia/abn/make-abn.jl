@@ -1,14 +1,12 @@
 include("generate-valid-abn.jl")
 
-make_abn() = ABN.format_abn(ABN.generate_abn())
-
-n = 10000
-abn = Array{String}(undef, n)
+n = 1000
+abn = Array{Int}(undef, n)
 for i = 1:n
-    abn[i] = make_abn()
+    abn[i] = ABN.generate_abn()
 end
 
-fname = "abn.txt"
+fname = "./abn/abn.txt"
 f = open(fname, "w")
 
 for i ∈ abn

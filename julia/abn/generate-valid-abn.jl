@@ -28,7 +28,12 @@ function validate_abn(abn::Int)::Bool
     s1 = [popfirst!(ds) - 1; ds]
     s2 = s1 .* weights
     s3 = sum(s2)
-    s3 % 89 == 0
+    return s3 % 89 == 0
+end
+
+function validate_abn(abn::String)::Bool 
+    abn = parse(Int, replace(abn, " " => ""))
+    validate_abn(abn::Int)::Bool
 end
 
 end
