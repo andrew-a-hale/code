@@ -180,3 +180,6 @@ SUCCESS [2021-03-12 04:00:02] backup job completed!
 INFO [2021-03-13 04:00:02] backup job started!
 INFO [2021-03-13 04:00:02] no files to backup
 SUCCESS [2021-03-13 04:00:02] backup job completed!
+INFO [2021-03-14 04:00:01] backup job started!
+INFO [2021-03-14 04:00:01] no files to backup
+SUCCESS [2021-03-14 04:00:01] backup job completed!
