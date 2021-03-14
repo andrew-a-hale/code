@@ -1,11 +1,14 @@
-box::use(logger[log_threshold, log_tictoc, log_info, log_success, INFO, TRACE])
+box::use(
+  logger[log_threshold, log_tictoc, log_info, log_success, INFO, TRACE], 
+  magrittr[`%>%`]
+)
 source("~/code/R/sudoku/helpers.R")
 source("~/code/R/sudoku/utils.R")
 source("~/code/R/sudoku/input.R")
 
 log_threshold(level = INFO)
 
-initGrid <- currentGrid <- fiveStar
+initGrid <- currentGrid <- final
 failStates <- list()
 
 rows <- nrow(initGrid)
@@ -20,3 +23,4 @@ while (0 %in% currentGrid) {
 log_success()
 log_tictoc(level = INFO)
 printSudoku(currentGrid)
+

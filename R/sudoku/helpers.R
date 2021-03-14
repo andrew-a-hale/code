@@ -2,13 +2,13 @@ getCandidates <- function(grid, c, n = NULL) {
   row <- rowFromCell(c, grid)
   col <- colFromCell(c, grid)
   
-  rv <- grid[row, ]
-  cv <- grid[, col]
-  sgv <- getSubGrid(grid, row, col)
+  rv <- unlist(grid[row, ], use.names = FALSE)
+  cv <- unlist(grid[, col], use.names = FALSE)
+  sgv <- unlist(getSubGrid(grid, row, col), use.names = FALSE)
   
-  if (anyDuplicated(unlist(rv), 0)) return(NULL)
-  if (anyDuplicated(unlist(cv), 0)) return(NULL)
-  if (anyDuplicated(unlist(sgv), 0)) return(NULL)
+  if (anyDuplicated(rv, 0)) return(NULL)
+  if (anyDuplicated(cv, 0)) return(NULL)
+  if (anyDuplicated(sgv, 0)) return(NULL)
    
   found <- unlist(
     list(
