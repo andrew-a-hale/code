@@ -1,7 +1,8 @@
 module ABN
 
+const weights = [10; range(1, 19, step = 2)]
+
 function generate_abn()::Int
-    weights = [10; range(1, 19, step = 2)]
     s1 = floor.(Int, rand(9) * 10)
     s2 = [1; 0; s1]
     s3 = sum([popfirst!(s2) - 1; s2] .* weights)
@@ -17,23 +18,33 @@ function generate_abn()::Int
     return abn
 end
 
+function generate_abn(n::Int) 
+    x = Array{Int}(undef, n)
+    for i = 1:n
+        x[i] = generate_abn()
+    end
+    return x
+end
+
 function format_abn(abn::Int)::String
     s = string(abn)
     return s[1:2] * " " * s[3:5] * " " * s[6:8] * " " * s[9:11]
 end
 
-function validate_abn(abn::Int)::Bool
-    weights = [10; range(1, 19, step = 2)]
+function weighted_abn_sum(abn::Int)
     ds = reverse(digits(abn))
     s1 = [popfirst!(ds) - 1; ds]
     s2 = s1 .* weights
-    s3 = sum(s2)
-    return s3 % 89 == 0
+    return sum(s2)
 end
 
-function validate_abn(abn::String)::Bool 
+function validate_abn(abn::Int)::Bool
+    return weighted_abn_sum(abn) % 89 == 0
+end
+
+function weighted_abn_sum(abn::String)::Bool 
     abn = parse(Int, replace(abn, " " => ""))
-    validate_abn(abn::Int)::Bool
+    return validate_abn(abn::Int)::Bool
 end
 
 end
