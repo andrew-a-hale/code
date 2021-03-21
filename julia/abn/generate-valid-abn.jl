@@ -23,7 +23,10 @@ function generate_abn(n::Int)
 end
 
 function _format_abn(abn::String)
-    return s[1:2] * " " * s[3:5] * " " * s[6:8] * " " * s[9:11]
+    if (!validate_abn(abn)) 
+        error("$abn is not a valid abn") 
+    end
+    return abn[1:2] * " " * abn[3:5] * " " * abn[6:8] * " " * abn[9:11]
 end
 
 function format_abn(abn::Int)::String
@@ -35,12 +38,15 @@ function format_abn(abn::String)::String
     if occursin(" ", abn)
         abn = replace(abn, " " => "")
     end
-    return _format_abn(s)
+    return _format_abn(abn)
 end
 
 function weighted_abn_sum(abn::Int)
     ## https://abr.business.gov.au/Help/AbnFormat
     ## see also validate_abn
+    if (length(digits(abn)) != length(weights)) 
+        error("abn must have 11 digits")
+    end
     ds = reverse(digits(abn))
     s1 = pushfirst!(ds, popfirst!(ds) - 1)
     s2 = s1 .* weights
