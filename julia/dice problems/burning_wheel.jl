@@ -3,11 +3,11 @@ function problemOne(failMax::Int)
     successCount = 0
     failFlag = 0
     for i = 1:dice
-        d = ceil(Int, rand()*6)
+        d = rand(1:6)
         while true
             if d < 4 && failFlag < failMax
                 failFlag += 1
-                d = ceil(Int, rand()*6)
+                d = rand(1:6)
             elseif d < 4 && failFlag == failMax
                 break
             elseif d < 6
@@ -15,7 +15,7 @@ function problemOne(failMax::Int)
                 break
             else
                 successCount += 1
-                d = ceil(Int, rand()*6)
+                d = rand(1:6)
             end
         end
         failFlag = false
@@ -27,7 +27,7 @@ function problemTwo()
     dice = 9
     successCount = 0
     for i = 1:dice
-        d = ceil(Int, rand()*6)
+        d = rand(1:6)
         while true
             if 2 < d < 6
                 successCount += 1
@@ -36,7 +36,7 @@ function problemTwo()
                 break
             else
                 successCount += 1
-                d = ceil(Int, rand()*6)
+                d = rand(1:6)
             end
         end
     end

@@ -1,11 +1,11 @@
-function pascal(n::Int)
+function pascalBroadcast(n::Int)
     x = [1]
     oddCounter = 1
     for i = 2:n
-        x = [0; x] .⊻ [x; 0]
+        x = pushfirst!(copy(x), 0) .⊻ push!(copy(x), 0)
         oddCounter += sum(x)
     end
     return oddCounter / sum(1:length(x)) * 100
 end
 
-pascal(2^7)
+@time pascalBroadcast(2^7)
