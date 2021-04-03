@@ -6,9 +6,8 @@ const weights = [10; range(1, 19, step = 2)]
 function generate_abn()::Int
     ## each variable is a step of the calculation from SO thread
     s1 = rand(0:9, 9)
-    s2 = append!([1, 0], s1)
-    s3 = sum(pushfirst!(s2, popfirst!(s2) - 1) .* weights)
-    s4 = s3 % 89
+    s2m3 = sum(append!([0, 0], s1) .* weights) # merged step 2 and 3
+    s4 = s2m3 % 89
     s5 = 89 - s4 + 10
     s6 = append!([s5 ÷ 10, s5 % 10], s1)
     return sum(s6[i] * 10^(length(s6)-i) for i in 1:length(s6))
