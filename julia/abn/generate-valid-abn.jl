@@ -22,23 +22,24 @@ function generate_abn(n::Int)
     return x
 end
 
-function _format_abn(abn::String)
+function format_abn(abn)
+    abn = _format_abn(abn)
     if (!validate_abn(abn)) 
         error("$abn is not a valid abn") 
     end
     return abn[1:2] * " " * abn[3:5] * " " * abn[6:8] * " " * abn[9:11]
 end
 
-function format_abn(abn::Int)::String
+function _format_abn(abn::Int)::String
     s = string(abn)
     return _format_abn(s)
 end
 
-function format_abn(abn::String)::String
+function _format_abn(abn::String)::String
     if occursin(" ", abn)
         abn = replace(abn, " " => "")
     end
-    return _format_abn(abn)
+    return format_abn(abn)
 end
 
 function weighted_abn_sum(abn::Int)
