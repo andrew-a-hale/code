@@ -7,9 +7,9 @@ validateGrid <- function(grid) {
 }
 
 validateContext <- function(grid, context) {
-  row <- context[1:9]
-  col <- context[10:18]
-  subgrid <- context[19:27]
+  row <- context[seq_len(sudokuConfig$rows)]
+  col <- context[seq_len(sudokuConfig$rows) + sudokuConfig$rows]
+  subgrid <- context[seq_len(sudokuConfig$rows) + (2 * sudokuConfig$rows)]
   
   !any(
     anyDuplicated(row, 0), 

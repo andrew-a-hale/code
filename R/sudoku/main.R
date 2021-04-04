@@ -6,7 +6,7 @@ source("~/code/R/sudoku/utils.R")
 source("~/code/R/sudoku/validators.R")
 source("~/code/R/sudoku/input.R")
 
-initGrid <- currentGrid <- fiveStar
+initGrid <- currentGrid <- final
 
 sudokuConfig = list(
   rows = sqrt(length(initGrid)),
