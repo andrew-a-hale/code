@@ -1,5 +1,5 @@
 validateGrid <- function(grid) {
-  purrr::map_lgl(
+  map_lgl(
     seq_along(grid), 
     ~ validateContext(grid, getContext(grid, .x))
   ) %>%

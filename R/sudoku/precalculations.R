@@ -28,7 +28,7 @@ subgridIndexes <- lapply(seq_along(sudoku$initGrid), function(c) {
   colStart <- floorToClosestN(col, sudokuConfig$subgridsize)
   subGridCols <- seq.int(colStart, colStart + sudokuConfig$subgridsize - 1, 1)
   
-  unlist(purrr::map(rowIndexes[subGridRows], ~ `[`(.x, subGridCols)))
+  unlist(map(rowIndexes[subGridRows], ~ `[`(.x, subGridCols)))
 })
 
 contextIndexes <- lapply(seq_along(sudoku$initGrid), function(c) {

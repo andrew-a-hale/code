@@ -1,5 +1,5 @@
 # 1 star
-oneStar <- matrix(
+oneStar <- 
   list(
     0L, 2L, 0L, 0L, 1L, 0L, 7L, 0L, 0L,
     0L, 5L, 9L, 4L, 0L, 7L, 0L, 1L, 8L,
@@ -10,14 +10,11 @@ oneStar <- matrix(
     2L, 0L, 0L, 9L, 0L, 3L, 6L, 0L, 7L,
     8L, 3L, 0L, 1L, 0L, 6L, 2L, 5L, 0L,
     0L, 0L, 4L, 0L, 5L, 0L, 0L, 8L, 0L
-  ),
-  nrow = 9,
-  ncol = 9,
-  byrow = TRUE
-)
+  ) %>% 
+  matrix(ncol = 9L, byrow = TRUE)
 
 # 2 star
-twoStar <- matrix(
+twoStar <-
   list(
     0L, 0L, 0L, 0L, 0L, 2L, 0L, 4L, 3L,
     0L, 3L, 7L, 0L, 5L, 9L, 0L, 0L, 8L,
@@ -28,14 +25,11 @@ twoStar <- matrix(
     0L, 0L, 1L, 9L, 0L, 0L, 6L, 0L, 7L,
     7L, 0L, 0L, 2L, 3L, 0L, 1L, 9L, 0L,
     8L, 5L, 0L, 6L, 0L, 0L, 0L, 0L, 0L
-  ),
-  nrow = 9,
-  ncol = 9,
-  byrow = TRUE
-)
+  ) %>% 
+  matrix(ncol = 9L, byrow = TRUE)
 
 # 3 star
-threeStar <- matrix(
+threeStar <-
   list(
     0L, 0L, 4L, 0L, 6L, 0L, 1L, 0L, 0L,
     9L, 0L, 0L, 3L, 0L, 1L, 0L, 0L, 8L,
@@ -46,14 +40,11 @@ threeStar <- matrix(
     0L, 7L, 0L, 9L, 0L, 4L, 0L, 8L, 0L,
     1L, 0L, 0L, 6L, 0L, 2L, 0L, 0L, 7L,
     0L, 0L, 8L, 0L, 1L, 0L, 4L, 0L, 0L
-  ),
-  nrow = 9,
-  ncol = 9,
-  byrow = TRUE
-)
+  ) %>% 
+  matrix(ncol = 9L, byrow = TRUE)
 
 # 4 star
-fourStar <- matrix(
+fourStar <- 
   list(
     9L, 0L, 6L, 0L, 8L, 0L, 5L, 0L, 0L,
     0L, 0L, 0L, 0L, 0L, 3L, 0L, 4L, 0L,
@@ -64,14 +55,11 @@ fourStar <- matrix(
     1L, 0L, 0L, 0L, 0L, 0L, 9L, 0L, 0L,
     0L, 7L, 0L, 2L, 0L, 0L, 0L, 0L, 0L,
     0L, 0L, 3L, 0L, 1L, 0L, 8L, 0L, 6L
-  ),
-  nrow = 9,
-  ncol = 9,
-  byrow = TRUE
-)
+  ) %>% 
+  matrix(ncol = 9L, byrow = TRUE)
 
 # 5 star
-fiveStar <- matrix(
+fiveStar <-
   list(
     1L, 0L, 3L, 0L, 0L, 0L, 0L, 0L, 0L,
     0L, 8L, 0L, 0L, 0L, 0L, 0L, 5L, 3L,
@@ -82,14 +70,11 @@ fiveStar <- matrix(
     0L, 0L, 1L, 7L, 0L, 9L, 0L, 0L, 0L,
     4L, 6L, 0L, 0L, 0L, 0L, 0L, 7L, 0L,
     0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 4L
-  ),
-  nrow = 9,
-  ncol = 9,
-  byrow = TRUE
-)
+  ) %>% 
+  matrix(ncol = 9L, byrow = TRUE)
 
 # final
-final <- matrix(
+final <-
   list(
     0L, 0L, 1L, 0L, 5L, 0L, 0L, 0L, 0L,
     8L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L,
@@ -100,14 +85,11 @@ final <- matrix(
     0L, 3L, 2L, 4L, 0L, 9L, 0L, 0L, 0L,
     0L, 0L, 0L, 0L, 0L, 0L, 0L, 0L, 6L,
     0L, 0L, 0L, 0L, 7L, 0L, 5L, 0L, 0L
-  ),
-  nrow = 9,
-  ncol = 9,
-  byrow = TRUE
-)
+  ) %>% 
+  matrix(ncol = 9L, byrow = TRUE)
 
 # bruteforcewiki
-bruteforcewiki <- matrix(
+bruteforcewiki <-
   list(
     5L, 3L, 0L, 0L, 7L, 0L, 0L, 0L, 0L,
     6L, 0L, 0L, 1L, 9L, 5L, 0L, 0L, 0L,
@@ -118,9 +100,6 @@ bruteforcewiki <- matrix(
     0L, 6L, 0L, 0L, 0L, 0L, 2L, 8L, 0L,
     0L, 0L, 0L, 4L, 1L, 9L, 0L, 0L, 5L,
     0L, 0L, 0L, 0L, 8L, 0L, 0L, 7L, 9L
-  ),
-  nrow = 9,
-  ncol = 9,
-  byrow = TRUE
-)
+  ) %>% 
+  matrix(ncol = 9L, byrow = TRUE)
 

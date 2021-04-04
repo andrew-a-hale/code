@@ -1,7 +1,6 @@
-box::use(
-  logger[log_threshold, log_tictoc, log_info, log_success, INFO, TRACE], 
-  magrittr[`%>%`]
-)
+library(magrittr)
+library(logger)
+library(purrr)
 source("~/code/R/sudoku/procedures.R")
 source("~/code/R/sudoku/utils.R")
 source("~/code/R/sudoku/validators.R")
@@ -10,9 +9,9 @@ source("~/code/R/sudoku/input.R")
 initGrid <- currentGrid <- fiveStar
 
 sudokuConfig = list(
-  rows = nrow(initGrid),
-  full_set = seq_len(nrow(initGrid)),
-  subgridsize = sqrt(nrow(initGrid))
+  rows = sqrt(length(initGrid)),
+  full_set = seq_len(sqrt(length(initGrid))),
+  subgridsize = sqrt(sqrt(length(initGrid)))
 )
 
 sudoku <- list(

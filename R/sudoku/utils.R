@@ -1,8 +1,8 @@
 printSudoku <- function(grid) {
-  purrr::walk(
-    seq_len(nrow(grid)),
+  walk(
+    seq_len(sudokuConfig$rows),
     function(.x) {
-      cat(unlist(grid[.x, ]), "\n")
+      cat(unlist(grid[rowIndexes[[.x]]]), "\n")
     }
   )
 }

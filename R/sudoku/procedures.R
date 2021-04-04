@@ -37,11 +37,11 @@ solveGrid <- function(sudoku) {
   
   # forced move type 1
   candidates <- seq_along(sudoku$currentGrid) %>%
-    purrr::map(~ getCandidates(sudoku$currentGrid, .x))
-  indexToChange <- purrr::detect_index(candidates, ~length(.) == 1)
+    map(~ getCandidates(sudoku$currentGrid, .x))
+  indexToChange <- detect_index(candidates, ~length(.) == 1)
   
   # check for no candidates for any cell
-  error <- purrr::detect(seq_along(sudoku$currentGrid), function(.x) {
+  error <- detect(seq_along(sudoku$currentGrid), function(.x) {
     is.null(candidates[[.x]]) && sudoku$currentGrid[.x] == 0
   })
   
