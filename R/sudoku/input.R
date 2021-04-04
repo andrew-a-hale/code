@@ -103,3 +103,10 @@ bruteforcewiki <-
   ) %>% 
   matrix(ncol = 9L, byrow = TRUE)
 
+# two by two
+txt <- 
+  list(
+    1L, 0L,
+    0L, 1L
+  ) %>%
+  matrix(ncol = 2L, byrow = TRUE)
