@@ -1,27 +1,3 @@
-getContext <- function(grid, c) {
-  unlist(grid[contextIndexes[[c]]])
-}
-
-validateGrid <- function(grid) {
-  purrr::map_lgl(
-    seq_along(grid), 
-    ~ validateContext(grid, getContext(grid, .x))
-  ) %>%
-    all(grid > 0)
-}
-
-validateContext <- function(grid, context) {
-  row <- context[1:9]
-  col <- context[10:18]
-  subgrid <- context[19:27]
-  
-  !any(
-    anyDuplicated(row, 0), 
-    anyDuplicated(col, 0), 
-    anyDuplicated(subgrid, 0)
-  )
-}
-
 getCandidates <- function(grid, c) {
   if (grid[c] > 0) return(NULL)
   context <- getContext(grid, c)
@@ -41,7 +17,7 @@ makeGuess <- function(sudoku, c) {
     sudoku$currentGrid[c] <- candidate
     if (gridToString(sudoku$currentGrid) %notin% sudoku$failStates) {
       sudoku <- updateChanges(
-        sudoku, 
+        sudoku,
         list(cell = c, value = candidate)
       )
       return(sudoku)
@@ -50,7 +26,7 @@ makeGuess <- function(sudoku, c) {
   sudoku$currentGrid[c] <- 0
   
   # in fail state 
-  ## add to fail state and restart
+  ## add to fail state and revert
   sudoku <- updateFailState(sudoku)
   sudoku <- revertLastChange(sudoku)
   return(sudoku)
@@ -58,13 +34,18 @@ makeGuess <- function(sudoku, c) {
 
 solveGrid <- function(sudoku) {
   if (0 %notin% sudoku$currentGrid) return(sudoku)
+  
+  # forced move type 1
   candidates <- seq_along(sudoku$currentGrid) %>%
     purrr::map(~ getCandidates(sudoku$currentGrid, .x))
   indexToChange <- purrr::detect_index(candidates, ~length(.) == 1)
+  
+  # check for no candidates for any cell
   error <- purrr::detect(seq_along(sudoku$currentGrid), function(.x) {
     is.null(candidates[[.x]]) && sudoku$currentGrid[.x] == 0
   })
   
+  # check for force move type 1 goes into an error state
   proposedChange <- {
     x <- sudoku$currentGrid
     x[indexToChange] <- candidates[indexToChange]
@@ -76,7 +57,7 @@ solveGrid <- function(sudoku) {
   
   if (!is.null(error)) {
     # in fail state 
-    ## add to fail state and restart
+    ## add to fail state and revert
     sudoku <- updateFailState(sudoku)
     sudoku <- revertLastChange(sudoku)
     return(sudoku)
@@ -85,24 +66,16 @@ solveGrid <- function(sudoku) {
   if (indexToChange > 0) {
     sudoku$currentGrid[indexToChange] <- candidates[indexToChange]
     sudoku <- updateChanges(
-      sudoku, 
+      sudoku,
       list(cell = indexToChange, value = candidates[[indexToChange]])
     )
   }
   
   if (indexToChange == 0) {
-    c <- sample(which(sudoku$currentGrid == 0), 1)
+    c <- which(sudoku$currentGrid == 0)[1]
     sudoku <- makeGuess(sudoku, c)
   }
   solveGrid(sudoku)
-}
-
-rowFromCell <- function(c) {
-  (c - 1) %% sudokuConfig$rows + 1
-}
-
-colFromCell <- function(c) {
-  (c - 1) %/% sudokuConfig$rows + 1
 }
 
 updateFailState <- function(sudoku) {
@@ -119,9 +92,8 @@ updateChanges <- function(sudoku, lastChange) {
 }
 
 revertLastChange <- function(sudoku) {
-  # sudoku$changes[-length(sudoku$changes)]
-  # c <- sudoku$changes[[length(sudoku$changes)]]$cell
-  # sudoku$currentGrid[c] <- 0
-  sudoku$currentGrid <- sudoku$initGrid
+  c <- sudoku$changes[[length(sudoku$changes)]]$cell
+  sudoku$currentGrid[c] <- 0
+  sudoku$changes <- sudoku$changes[-length(sudoku$changes)]
   return(sudoku)
 }

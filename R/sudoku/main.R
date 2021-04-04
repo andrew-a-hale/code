@@ -2,8 +2,9 @@ box::use(
   logger[log_threshold, log_tictoc, log_info, log_success, INFO, TRACE], 
   magrittr[`%>%`]
 )
-source("~/code/R/sudoku/helpers.R")
+source("~/code/R/sudoku/procedures.R")
 source("~/code/R/sudoku/utils.R")
+source("~/code/R/sudoku/validators.R")
 source("~/code/R/sudoku/input.R")
 
 initGrid <- currentGrid <- fiveStar
@@ -18,7 +19,8 @@ sudoku <- list(
   initGrid = initGrid,
   currentGrid = currentGrid,
   failStates = list(),
-  changes = list()
+  changes = list(),
+  snapshot = list()
 )
 
 log_tictoc(level = TRACE)

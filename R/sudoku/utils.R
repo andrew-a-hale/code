@@ -17,4 +17,14 @@ floorToClosestN <- function(x, n) {
 
 `%notin%` <- Negate(`%in%`)
 
+getContext <- function(grid, c) {
+  unlist(grid[contextIndexes[[c]]])
+}
 
+rowFromCell <- function(c) {
+  (c - 1) %% sudokuConfig$rows + 1
+}
+
+colFromCell <- function(c) {
+  (c - 1) %/% sudokuConfig$rows + 1
+}
