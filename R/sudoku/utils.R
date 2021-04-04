@@ -12,7 +12,7 @@ gridToString <- function(grid) {
 }
 
 floorToClosestN <- function(x, n) {
-  (((x - 1) %/% n) * n)
+  (((x - 1) %/% n) * n) + 1
 }
 
 `%notin%` <- Negate(`%in%`)

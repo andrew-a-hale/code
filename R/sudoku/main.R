@@ -6,21 +6,26 @@ source("~/code/R/sudoku/helpers.R")
 source("~/code/R/sudoku/utils.R")
 source("~/code/R/sudoku/input.R")
 
-log_threshold(level = INFO)
+initGrid <- currentGrid <- fiveStar
 
-initGrid <- currentGrid <- final
-failStates <- list()
+sudokuConfig = list(
+  rows = nrow(initGrid),
+  full_set = seq_len(nrow(initGrid)),
+  subgridsize = sqrt(nrow(initGrid))
+)
 
-rows <- nrow(initGrid)
-FULL_SET <- seq_len(rows)
-subGridSize <- sqrt(rows)
+sudoku <- list(
+  initGrid = initGrid,
+  currentGrid = currentGrid,
+  failStates = list(),
+  changes = list()
+)
 
 log_tictoc(level = TRACE)
-
-while (0 %in% currentGrid) {
-  currentGrid <- solveGrid(initGrid)
+source("~/code/R/sudoku/precalculations.R")
+while (isFALSE(validateGrid(sudoku$currentGrid))) {
+  sudoku <- solveGrid(sudoku)
 }
 log_success()
 log_tictoc(level = INFO)
-printSudoku(currentGrid)
-
+printSudoku(sudoku$currentGrid)
