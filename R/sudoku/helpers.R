@@ -36,9 +36,14 @@ getCandidates <- function(grid, c) {
 
 makeGuess <- function(sudoku, c) {
   allCandidates <- getCandidates(sudoku$currentGrid, c)
+  if (is.null(allCandidates)) return(sudoku)
   for (candidate in allCandidates) {
     sudoku$currentGrid[c] <- candidate
     if (gridToString(sudoku$currentGrid) %notin% sudoku$failStates) {
+      sudoku <- updateChanges(
+        sudoku, 
+        list(cell = c, value = candidate)
+      )
       return(sudoku)
     }
   }
@@ -46,11 +51,8 @@ makeGuess <- function(sudoku, c) {
   
   # in fail state 
   ## add to fail state and restart
-  sudoku$failStates <- union(
-    sudoku$failStates, 
-    gridToString(sudoku$currentGrid)
-  )
-  sudoku$currentGrid <- sudoku$initGrid
+  sudoku <- updateFailState(sudoku)
+  sudoku <- revertLastChange(sudoku)
   return(sudoku)
 }
 
@@ -63,19 +65,29 @@ solveGrid <- function(sudoku) {
     is.null(candidates[[.x]]) && sudoku$currentGrid[.x] == 0
   })
   
+  proposedChange <- {
+    x <- sudoku$currentGrid
+    x[indexToChange] <- candidates[indexToChange]
+    x
+  }
+  if (gridToString(proposedChange) %in% sudoku$failStates) {
+    error <- indexToChange
+  }
+  
   if (!is.null(error)) {
     # in fail state 
     ## add to fail state and restart
-    sudoku$failStates <- union(
-      sudoku$failStates, 
-      gridToString(sudoku$currentGrid)
-    )
-    sudoku$currentGrid <- sudoku$initGrid
+    sudoku <- updateFailState(sudoku)
+    sudoku <- revertLastChange(sudoku)
     return(sudoku)
   }
   
   if (indexToChange > 0) {
     sudoku$currentGrid[indexToChange] <- candidates[indexToChange]
+    sudoku <- updateChanges(
+      sudoku, 
+      list(cell = indexToChange, value = candidates[[indexToChange]])
+    )
   }
   
   if (indexToChange == 0) {
@@ -91,4 +103,25 @@ rowFromCell <- function(c) {
 
 colFromCell <- function(c) {
   (c - 1) %/% sudokuConfig$rows + 1
+}
+
+updateFailState <- function(sudoku) {
+  sudoku$failStates <- union(
+    sudoku$failStates, 
+    gridToString(sudoku$currentGrid)
+  )
+  return(sudoku)
+}
+
+updateChanges <- function(sudoku, lastChange) {
+  sudoku$changes <- append(sudoku$changes, list(lastChange))
+  return(sudoku)
+}
+
+revertLastChange <- function(sudoku) {
+  # sudoku$changes[-length(sudoku$changes)]
+  # c <- sudoku$changes[[length(sudoku$changes)]]$cell
+  # sudoku$currentGrid[c] <- 0
+  sudoku$currentGrid <- sudoku$initGrid
+  return(sudoku)
 }
