@@ -19,8 +19,7 @@ sudoku <- list(
   initGrid = initGrid,
   currentGrid = currentGrid,
   failStates = list(),
-  changes = list(),
-  snapshot = list()
+  changes = list()
 )
 
 log_tictoc(level = TRACE)
