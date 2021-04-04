@@ -13,7 +13,7 @@ function generate_abn()::Int
     return sum(s6[i] * 10^(length(s6)-i) for i in 1:length(s6))
 end
 
-function generate_abn(n::Int) 
+function generate_abn(n::Int)::Array{Int64,1}
     x = Array{Int}(undef, n)
     for i = 1:n
         x[i] = generate_abn()
@@ -21,7 +21,7 @@ function generate_abn(n::Int)
     return x
 end
 
-function format_abn(abn)
+function format_abn(abn)::String
     abn = _format_abn(abn)
     if (!validate_abn(abn)) 
         error("$abn is not a valid abn") 
@@ -31,17 +31,17 @@ end
 
 function _format_abn(abn::Int)::String
     s = string(abn)
-    return _format_abn(s)
+    return s
 end
 
 function _format_abn(abn::String)::String
     if occursin(" ", abn)
         abn = replace(abn, " " => "")
     end
-    return format_abn(abn)
+    return abn
 end
 
-function weighted_abn_sum(abn::Int)
+function weighted_abn_sum(abn::Int)::Int
     ## https://abr.business.gov.au/Help/AbnFormat
     ## see also validate_abn
     if (length(digits(abn)) != length(weights)) 
@@ -63,4 +63,3 @@ function validate_abn(abn::String)::Bool
 end
 
 end
-
