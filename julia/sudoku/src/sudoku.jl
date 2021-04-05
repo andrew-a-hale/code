@@ -22,6 +22,7 @@ struct GridIndexes
     row
     col
     subgrid
+    context_indexes
 end
 
 # Processing
@@ -39,7 +40,8 @@ function precomputation()
     GridIndexes(
         row_indexes(),
         col_indexes(),
-        subgrid_indexes()
+        subgrid_indexes(),
+        context_indexes()
     )
 end
 
@@ -55,9 +57,26 @@ end
 
 function subgrid_indexes()
     function mapper(x) 
-        
+        row_start = ((row_from_cell(x) - 1) ÷ config.subgridsize) * config.subgridsize + 1
+        col_start = ((col_from_cell(x) - 1) ÷ config.subgridsize) * config.subgridsize + 1
+        subgrid_rows = range(row_start, step=1, length=3)
+        subgrid_cols = range(col_start, step=1, length=3)
+        row_indx = row_indexes()
+        map(x -> x[subgrid_cols], row_indx[subgrid_rows])
     end
-    map(x -> mapper, range(1, length = config.size))
+    map(x -> mapper(x), range(1, length = config.size))
+end
+
+# TODO: should return an array of length 27
+function context_indexes()
+    map(
+        cell -> vcat(
+            row_indexes()[row_from_cell(cell)],
+            col_indexes()[col_from_cell(cell)],
+            subgrid_indexes()[cell]
+        ),
+        range(1, length = config.size)
+    )
 end
 
 function setup_config(sudoku::Sudoku)
@@ -116,6 +135,7 @@ end
 
 sudoku = read_sudoku(example_grid)
 const config = setup_config(sudoku)
+grid_indexes = precomputation()
 print(sudoku)
 
 end
