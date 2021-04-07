@@ -1,21 +1,17 @@
 module SudokuSolver
 
-# Example
-const example_grid = "001073280250980030098600004043200910100030005079008360700005620010067058085410700"
-
 # Data Model
-struct Config 
-    size::Int
-    rows::Int
-    value_set::Array{Int}
-    subgridsize::Int
+struct Config{T<:Int,S<:Array{Int}}
+    size::T
+    rows::T
+    value_set::S
+    subgridsize::T
 end
 
-mutable struct Sudoku
-    current_grid::Array{Int}
-    init_grid::Array{Int}
-    fail_states
-    changes
+mutable struct Sudoku{T<:Array{Int},S<:Array{Array{Int,1},1},R<:Array{Tuple{Int,Int},1}}
+    current_grid::T
+    fail_states::S
+    changes::R
 end
 
 # Processing
@@ -25,7 +21,7 @@ function read_sudoku(input::String)
         error("give sudoku has unsupported dimension")
     end
     parsed_grid = map(x -> parse(Int, x), split(input, ""))
-    Sudoku(parsed_grid, parsed_grid, [], [])
+    Sudoku(parsed_grid, Array{Int,1}[], Tuple{Int,Int}[])
 end
 
 # Precomputation
@@ -67,26 +63,31 @@ function context_indexes()
 end
 
 function setup_config(sudoku::Sudoku)
-    grid = sudoku.init_grid
-    rows::Int = sqrt(length(grid))
-    value_set = range(1, length = rows)
+    gridsize::Int = length(sudoku.current_grid)
+    rows::Int = sqrt(gridsize)
+    value_set::Array{Int} = range(1, length = rows)
     subgridsize::Int = sqrt(rows)
-    Config(length(grid), rows, value_set, subgridsize)
+    Config(gridsize, rows, value_set, subgridsize)
 end
 
 # Solver
 function run_solver(sudoku::Sudoku)
     while !is_solved(sudoku)
-        sudoku = solve(sudoku)
+        sudoku = solve(sudoku)::Sudoku
     end
     sudoku
 end
 
 function solve(sudoku::Sudoku)
+    if is_solved(sudoku) 
+        return sudoku
+    end
+
     all_candidates = map(cell -> get_candidates(sudoku.current_grid, cell), range(1, length = config.size))
+
     index_to_change = 0
     for cell ∈ eachindex(all_candidates)
-        if length(all_candidates[cell]) == 1
+        if !isnothing(all_candidates[cell]) && length(all_candidates[cell]) === 1
             index_to_change = cell
             break
         end
@@ -96,26 +97,25 @@ function solve(sudoku::Sudoku)
 
     if index_to_change > 0
         proposed_change = deepcopy(sudoku.current_grid)
-        proposed_change[index_to_change] = all_candidates[index_to_change] # fails here
+        proposed_change[index_to_change] = all_candidates[index_to_change][1]
         if proposed_change ∈ sudoku.fail_states
             error = true
         end
     end
 
     if error
-        println(2)
         sudoku = update_fail_states(sudoku)
         sudoku = revert_last_change(sudoku)
         return sudoku
     end
 
     if index_to_change > 0
-        sudoku.current_grid[index_to_change] = all_candidates[index_to_change]
-        sudoku = update_changes(sudoku, (index_to_change, all_candidates[index_to_change]))
+        sudoku.current_grid[index_to_change] = all_candidates[index_to_change][1]
+        sudoku = update_changes(sudoku, (index_to_change, all_candidates[index_to_change][1])::Tuple{Int,Int})
     end
 
-    if index_to_change == 0
-        cell = findfirst(iszero, sudoku.current_grid)
+    if index_to_change == 0 && 0 ∈ sudoku.current_grid
+        cell = findfirst(iszero, sudoku.current_grid)::Int
         sudoku = make_guess(sudoku, cell)
     end
 
@@ -124,7 +124,9 @@ end
 
 # Solve Subroutines
 function update_fail_states(sudoku)
-    unique!(push!(sudoku.fail_states, sudoku.current_grid))
+    if sudoku.current_grid ∉ sudoku.fail_states 
+        push!(sudoku.fail_states, deepcopy(sudoku.current_grid))
+    end
     sudoku
 end
 
@@ -134,12 +136,15 @@ function update_changes(sudoku, last_change)
 end
 
 function revert_last_change(sudoku)
-   cell, value = pop!(sudoku.changes)
-   sudoku.current_grid[cell] = value
-   sudoku
+    cell, value = pop!(sudoku.changes)
+    sudoku.current_grid[cell] = 0
+    sudoku
 end
 
 function get_candidates(grid, cell)
+    if grid[cell] > 0 
+        return nothing
+    end
     context = get_context(grid, cell)
     candidates = setdiff(config.value_set, context)
     length(candidates) > 0 ? candidates : nothing
@@ -162,12 +167,11 @@ function make_guess(sudoku, cell)
 end
 
 # Validators
-function is_solved(sudoku::Sudoku) 
-    grid = sudoku.current_grid
+function is_solved(sudoku::Sudoku)
     # basic completion check
-    if (0 ∈ grid)
+    if (0 ∈ sudoku.current_grid)
         return false
-    elseif !validate_grid(grid)
+    elseif !validate_grid(sudoku.current_grid)
         return false
     end
     true
@@ -179,7 +183,7 @@ end
 
 function validate_context(context) 
     row, col, subgrid = collect(Iterators.partition(context, config.rows))
-    all(i -> length(unique(context[i])) == config.rows, [row, col, subgrid])
+    all(i -> length(unique(context[i])) === config.rows, [row, col, subgrid])
 end
 
 # Sudoku Helpers
@@ -202,7 +206,7 @@ end
 # Print
 function print(sudoku::Sudoku)
     for i ∈ range(1, length = config.size)
-        if i % config.rows == 0 
+        if i % config.rows === 0 
             println(sudoku.current_grid[i])
         else
             Base.print(sudoku.current_grid[i], " ")
@@ -210,9 +214,11 @@ function print(sudoku::Sudoku)
     end
 end
 
+# Example
+const example_grid = "080070000000009300100000200002000400500080007003000900001000005009400000000010060"
 sudoku = read_sudoku(example_grid)
 const config = setup_config(sudoku)
 const cell_contexts = precomputation()
-print(run_solver(sudoku))
+@time print(run_solver(sudoku))
 
 end
