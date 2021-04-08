@@ -1,3 +1,9 @@
+# decompose modules into many smaller modules?
+# Sudoku
+#   Solvers
+#   Helpers
+#   Validators
+#   Precompute
 module SudokuSolver
 
 # Data Model
@@ -8,6 +14,7 @@ struct Config{T<:Int,S<:Array{Int}}
     subgridsize::T
 end
 
+# bad data types?
 mutable struct Sudoku{T<:Array{Int},S<:Array{Array{Int,1},1},R<:Array{Tuple{Int,Int},1}}
     current_grid::T
     fail_states::S
@@ -39,6 +46,7 @@ function col_indexes()
     map(x -> range(x, step = config.rows, length = config.rows), range(1, length = config.rows))
 end
 
+## looks inefficient
 function subgrid_indexes()
     function mapper(x) 
         row_start = floor_nearest(row_from_cell(x), config.subgridsize)
@@ -51,6 +59,7 @@ function subgrid_indexes()
     map(x -> mapper(x), range(1, length = config.size))
 end
 
+## looks inefficient
 function context_indexes()
     map(
         cell -> vcat(
@@ -78,6 +87,7 @@ function run_solver(sudoku::Sudoku)
     sudoku
 end
 
+## decompose into smaller functions
 function solve(sudoku::Sudoku)
     if is_solved(sudoku) 
         return sudoku
@@ -86,6 +96,7 @@ function solve(sudoku::Sudoku)
     all_candidates = map(cell -> get_candidates(sudoku.current_grid, cell), range(1, length = config.size))
 
     index_to_change = 0
+    # rewrite as function
     for cell ∈ eachindex(all_candidates)
         if !isnothing(all_candidates[cell]) && length(all_candidates[cell]) === 1
             index_to_change = cell
@@ -93,8 +104,10 @@ function solve(sudoku::Sudoku)
         end
     end
 
+    # rewrite as validator?
     error = !isnothing(findfirst(cell -> isnothing(all_candidates[cell]) && sudoku.current_grid[cell] == 0, range(1, length = config.size)))
 
+    # rewrite as validator
     if index_to_change > 0
         proposed_change = deepcopy(sudoku.current_grid)
         proposed_change[index_to_change] = all_candidates[index_to_change][1]
@@ -109,11 +122,13 @@ function solve(sudoku::Sudoku)
         return sudoku
     end
 
+    # rewrite as make_move(:Int)
     if index_to_change > 0
         sudoku.current_grid[index_to_change] = all_candidates[index_to_change][1]
         sudoku = update_changes(sudoku, (index_to_change, all_candidates[index_to_change][1])::Tuple{Int,Int})
     end
 
+    # rewrite as make_move(:Nothing)
     if index_to_change == 0 && 0 ∈ sudoku.current_grid
         cell = findfirst(iszero, sudoku.current_grid)::Int
         sudoku = make_guess(sudoku, cell)
@@ -186,7 +201,7 @@ function validate_context(context)
     all(i -> length(unique(context[i])) === config.rows, [row, col, subgrid])
 end
 
-# Sudoku Helpers
+# Helpers
 function row_from_cell(cell)
     (cell - 1) ÷ config.rows + 1
 end
