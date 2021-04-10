@@ -17,7 +17,7 @@ struct Config{T<:UInt8,S<:Array{UInt8}}
 end
 
 # bad data types?
-mutable struct Sudoku{T<:Array{UInt8},S<:Array{Array{UInt8,1},1},R<:Array{Tuple{UInt8,UInt8},1}}
+mutable struct Sudoku{T<:Array{UInt8},S<:Array{String,1},R<:Array{Tuple{UInt8,UInt8},1}}
     current_grid::T
     fail_states::S
     changes::R
@@ -30,7 +30,7 @@ function read_sudoku(input::String)
         error("give sudoku has unsupported dimension")
     end
     parsed_grid = map(x -> parse(UInt8, x), split(replace(input, '.' => '0'), ""))
-    Sudoku(parsed_grid, Array{UInt8,1}[], Tuple{UInt8,UInt8}[])
+    Sudoku(parsed_grid, String[], Tuple{UInt8,UInt8}[])
 end
 
 # Precomputation
@@ -74,18 +74,24 @@ function context_indexes()
 end
 
 function setup_config(sudoku::Sudoku)
-    gridsize::UInt8 = length(sudoku.current_grid)
-    rows::UInt8 = sqrt(gridsize)
-    value_set::Array{UInt8} = range(0x01, length = rows)
-    subgridsize::UInt8 = sqrt(rows)
-    Config(0x00, 0x01, gridsize, rows, value_set, subgridsize)
+    @time gridsize::UInt8 = length(sudoku.current_grid)
+    @time rows::UInt8 = sqrt(gridsize)
+    @time value_set::Array{UInt8} = range(0x01, length = rows)
+    @time subgridsize::UInt8 = sqrt(rows)
+    @time Config(0x00, 0x01, gridsize, rows, value_set, subgridsize)
 end
 
 # Solver
 function run_solver(sudoku::Sudoku)
+    iter = 0
     while !is_solved(sudoku)
+        iter += 1
+        if iter % 10000 == 0
+            @show iter
+        end
         sudoku = solve(sudoku)
     end
+    @show iter
     sudoku
 end
 
@@ -99,51 +105,57 @@ function solve(sudoku::Sudoku)
     # if in a whole row, col, or grid a cell value is unique it is the only candidate for cell
     all_candidates = map(cell -> get_candidates(sudoku.current_grid, cell), range(config.one, length = config.size))
 
-    indexes_to_change::UInt8 = 0x00
     # rewrite as function
-    for cell ∈ eachindex(all_candidates)
-        if !isnothing(all_candidates[cell]) && length(all_candidates[cell]) == 1
-            indexes_to_change = cell
+    cell_to_change::UInt8 = findfirst(!isnothing, all_candidates)
+    for cell::UInt8 ∈ eachindex(all_candidates)
+        all_candidates[cell], cell
+        if !isnothing(all_candidates[cell])
+            if length(all_candidates[cell]) < length(all_candidates[cell_to_change])
+                cell_to_change = cell
+            end
         end
     end
+    new_cell_candidates = all_candidates[cell_to_change]
 
     # rewrite as validator?
     error = !isnothing(findfirst(cell -> isnothing(all_candidates[cell]) && sudoku.current_grid[cell] == config.zero, range(config.one, length = config.size)))
 
     # rewrite as validator
-    if indexes_to_change > 0
+    if length(new_cell_candidates) == 1
         proposed_change = deepcopy(sudoku.current_grid)
-        proposed_change[indexes_to_change] = all_candidates[indexes_to_change][1]
-        if proposed_change ∈ sudoku.fail_states
+        proposed_change[cell_to_change] = new_cell_candidates[1]
+        if failed_state(proposed_change)
             error = true
         end
     end
 
     if error
-        sudoku = update_fail_states(sudoku)
-        sudoku = revert_last_change(sudoku)
-        return sudoku
+        return handle_error_state(sudoku)
     end
 
-    # rewrite as make_move(:Int)
-    if indexes_to_change > 0
-        sudoku.current_grid[indexes_to_change] = all_candidates[indexes_to_change][1]
-        sudoku = update_changes(sudoku, (indexes_to_change, all_candidates[indexes_to_change][1]))
+    if length(new_cell_candidates) == 1
+        sudoku = make_move(sudoku, (cell_to_change, new_cell_candidates[1]))
     end
 
-    # rewrite as make_move(:Nothing)
-    if indexes_to_change == 0 && config.zero ∈ sudoku.current_grid
-        cell = findfirst(iszero, sudoku.current_grid) # add heuristic here to complete the most solved cell
-        sudoku = make_guess(sudoku, cell)
+    if length(new_cell_candidates) > 1 && config.zero ∈ sudoku.current_grid
+        sudoku = make_guess(sudoku, cell_to_change)
     end
 
     return sudoku
 end
 
 # Solve Subroutines
+function failed_state(sudoku::Sudoku)
+    join(sudoku.current_grid) ∈ sudoku.fail_states
+end
+
+function failed_state(grid::Array{UInt8})
+    join(grid) ∈ sudoku.fail_states
+end
+
 function update_fail_states(sudoku)
-    if sudoku.current_grid ∉ sudoku.fail_states 
-        push!(sudoku.fail_states, deepcopy(sudoku.current_grid))
+    if !failed_state(sudoku)
+        push!(sudoku.fail_states, join(sudoku.current_grid))
     end
     sudoku
 end
@@ -159,6 +171,10 @@ function revert_last_change(sudoku)
     sudoku
 end
 
+function handle_error_state(sudoku)
+    sudoku |> update_fail_states |> revert_last_change
+end
+
 function get_candidates(grid, cell)
     if grid[cell] > config.zero
         return nothing
@@ -170,34 +186,34 @@ end
 
 function make_guess(sudoku, cell) 
     candidates = get_candidates(sudoku.current_grid, cell)
+    grid = deepcopy(sudoku.current_grid)
     if !isnothing(candidates)
         for candidate ∈ candidates
-            sudoku.current_grid[cell] = candidate
-            if (sudoku.current_grid ∉ sudoku.fail_states)
-                sudoku = update_changes(sudoku, (cell, candidate))
-                return sudoku
+            grid[cell] = candidate
+            if !failed_state(grid)
+                return make_move(sudoku, (cell, candidate))
             end
         end
     end
     # in fail state
-    sudoku.current_grid[cell] = config.zero
-    sudoku = update_fail_states(sudoku)
-    sudoku = revert_last_change(sudoku)
-    sudoku
+    handle_error_state(sudoku)
+end
+
+function make_move(sudoku, move)
+    cell, value = move
+    sudoku.current_grid[cell] = value
+    update_changes(sudoku, move)
 end
 
 # Validators
 function is_solved(sudoku::Sudoku)
-    # basic completion check
-    if (config.zero ∈ sudoku.current_grid)
-        return false
-    elseif !validate_grid(sudoku.current_grid)
-        return false
-    end
-    true
+    validate_grid(sudoku.current_grid)
 end
 
 function validate_grid(grid)
+    if config.zero ∈ grid 
+        return false
+    end
     all(i -> validate_context(get_context(grid, i)), range(config.one, length = config.size))
 end
 
@@ -235,10 +251,13 @@ function print(sudoku::Sudoku)
 end
 
 # Example
-const example_grid = ".....6....59.....82....8....45........3........6..3.54...325..6.................."
+#example_grid = ".....6....59.....82....8....45........3........6..3.54...325..6.................."
+#example_grid = "080070000000009300100000200002000400500080007003000900001000005009400000000010060"
+#example_grid = "100800040080010060300060100008003700000208000005400900009040000050030070030006004"
+example_grid = "900000100000003070605080003000408020800090001030107000500010908040500000002000006"
 sudoku = read_sudoku(example_grid)
-const config = setup_config(sudoku)
-const cell_contexts = precomputation()
-@time print(run_solver(sudoku))
+@time config = setup_config(sudoku)
+cell_contexts = precomputation()
+print(run_solver(sudoku))
 
 end
