@@ -256,7 +256,7 @@ end
 #example_grid = "100800040080010060300060100008003700000208000005400900009040000050030070030006004"
 example_grid = "900000100000003070605080003000408020800090001030107000500010908040500000002000006"
 sudoku = read_sudoku(example_grid)
-@time config = setup_config(sudoku)
+config = setup_config(sudoku)
 cell_contexts = precomputation()
 print(run_solver(sudoku))
 
