@@ -2,9 +2,9 @@ getCandidates <- function(grid, c) {
   if (grid[c] > 0) return(NULL)
   context <- getContext(grid, c)
   
-  if (isFALSE(validateContext(grid, context))) return(NULL)
+  if (isFALSE(validateContext(context))) return(NULL)
   
-  candidates <- sudokuConfig$full_set[sudokuConfig$full_set %notin% context]
+  candidates <- setdiff(sudokuConfig$full_set, context)
 
   if (identical(length(candidates), 0L)) return(NULL)
   candidates
