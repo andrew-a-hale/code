@@ -1,7 +1,7 @@
 module ABN
 
 ## https://stackoverflow.com/questions/15503188/how-to-generate-an-australian-abn-number
-const weights = [10; range(1, 19, step = 2)]
+const weights = append!([10], range(1, 19, step = 2))
 
 function generate_abn()::Int
     ## each variable is a step of the calculation from SO thread

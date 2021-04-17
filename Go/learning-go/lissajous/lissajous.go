@@ -1,5 +1,5 @@
 // Lissajous generates GIF animations of random Lissajous figures.
-package main 
+package main
 
 import (
 	"image"
@@ -11,11 +11,12 @@ import (
 	"os"
 )
 
-var palette = []color.Color{color.White, color.Black}
+var palette = []color.Color{color.Black, color.RGBA{0, 255, 0, 255}, color.RGBA{255, 0, 0, 255}}
 
-const(
-	whiteIndex = 0 // first color in palette
-	blackIndex = 1 // next color in palette
+const (
+	blackIndex = 0 // first color in palette
+	greenIndex = 1 // next color in palette
+	redIndex   = 2 // last color in palette
 )
 
 func main() {
@@ -23,12 +24,12 @@ func main() {
 }
 
 func lissajous(out io.Writer) {
-	const(
-		cycles 	= 5		// number of complete x oscillator revolutions
-		res 	= 0.001 // angular resolution
-		size 	= 100	// image canvas
-		nframes = 64	// number of animation frames
-		delay 	= 8		// delay between frames in 10ms units
+	const (
+		cycles  = 6     // number of complete x oscillator revolutions
+		res     = 0.001 // angular resolution
+		size    = 200   // image canvas
+		nframes = 64    // number of animation frames
+		delay   = 8     // delay between frames in 10ms units
 	)
 	freq := rand.Float64() * 3.0 //  relative frequency of y oscillator
 	anim := gif.GIF{LoopCount: nframes}
@@ -39,7 +40,13 @@ func lissajous(out io.Writer) {
 		for t := 0.0; t < cycles*2*math.Pi; t += res {
 			x := math.Sin(t)
 			y := math.Sin(t*freq + phase)
-			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5), blackIndex)
+			var lineColor uint8
+			if x < y {
+				lineColor = greenIndex
+			} else {
+				lineColor = redIndex
+			}
+			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5), lineColor)
 		}
 		phase += 0.1
 		anim.Delay = append(anim.Delay, delay)
