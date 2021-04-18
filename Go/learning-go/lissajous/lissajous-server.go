@@ -1,14 +1,16 @@
 // Lissajous generates GIF animations of random Lissajous figures.
-package Lissajous
+package main
 
 import (
 	"image"
 	"image/color"
 	"image/gif"
 	"io"
+	"log"
 	"math"
 	"math/rand"
-	"os"
+	"net/http"
+	"strconv"
 )
 
 var palette = []color.Color{color.Black, color.RGBA{0, 255, 0, 255}, color.RGBA{255, 0, 0, 255}}
@@ -20,12 +22,22 @@ const (
 )
 
 func main() {
-	lissajous(os.Stdout)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if err := r.ParseForm(); err != nil {
+			log.Print("invalid form")
+		}
+		cycles, err := strconv.ParseFloat(r.Form.Get("cycles"), 2)
+		if err != nil {
+			log.Print("cycle not in query or did not parse to float")
+		}
+		lissajous(w, cycles)
+	}) // each request calls handler
+	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
-func lissajous(out io.Writer) {
+func lissajous(out io.Writer, cycles float64) {
 	const (
-		cycles  = 6     // number of complete x oscillator revolutions
+		// cycles  = 5 // number of complete x oscillator revolutions
 		res     = 0.001 // angular resolution
 		size    = 200   // image canvas
 		nframes = 64    // number of animation frames
