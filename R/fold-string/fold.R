@@ -7,7 +7,7 @@ f <- function(s) {
     if (identical(i, 1L)) {
       r[[j]] <- list(ls[i], 1)
     }
-    else if (ls[i] != ls[i-1]) {
+    else if (ls[i] != ls[i - 1]) {
       j <- j + 1
       r[[j]] <- list(ls[i], 1)
     }

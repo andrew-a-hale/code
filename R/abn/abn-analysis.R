@@ -4,18 +4,18 @@ library(magrittr)
 abns <- readr::read_csv("abn_memberno.csv")
 setDT(abns)
 
-WEIGHTS <- c(10L, seq.int(1, 19, 2))
+weights <- c(10L, seq.int(1, 19, 2))
 
 validate_abn <- function(abn) {
   ds <- as.numeric(stringr::str_split(abn, "")[[1]])
   ds[1] <- ds[1] - 1
-  sum(ds * WEIGHTS) %% 89L == 0L
+  sum(ds * weights) %% 89L == 0L
 }
 
 weighted_abn_sum <- function(abn) {
   ds <- as.numeric(stringr::str_split(abn, "")[[1]])
   ds[1] <- ds[1] - 1
-  sum(ds * WEIGHTS)
+  sum(ds * weights)
 }
 
 cleaning_abn <- abns[
@@ -33,7 +33,10 @@ cleaning_abn <- abns[
   unique()
 
 big_string <- stringr::str_c(unlist(cleaning_abn$Abn), collapse = "")
-setNames(purrr::map_dfc(0:9, ~stringr::str_count(big_string, as.character(.x))), 0:9)
+setNames(
+  purrr::map_dfc(0:9, ~stringr::str_count(big_string, as.character(.x))),
+  0:9
+)
 
 digit_dt <- cleaning_abn$Abn %>%
   stringr::str_split("", simplify = TRUE) %>%
