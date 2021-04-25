@@ -1,4 +1,4 @@
-## 2021 Things to learn
+## Things to learn
 * Using vscode with R
     + https://medium.com/analytics-vidhya/a-fresh-start-for-r-in-vscode-ec61ed108cf6 
     + r.rpath.windows should be r exe path
@@ -49,7 +49,7 @@
     + Octo.jl -- Database Driver
 * Postgresql
 
-## 2021 Things to look into
+## Things to look into
 * Elixir -- Elixir In Action
 * Erlang -- https://learnyousomeerlang.com/
 * Rust
