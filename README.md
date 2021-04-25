@@ -7,7 +7,7 @@
         "r.bracketedPaste": true,
         "r.sessionWatcher": true,
         "r.workspaceViewer.removeHiddenItems": true,
-        "task.problemMatchers.neverPrompt": null,
+        "task.problemMatchers.neverPrompt": false,
         "r.lsp.debug": true,
         "r.lsp.diagnostics": true,
         "r.rterm.option": [
