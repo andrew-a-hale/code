@@ -41,18 +41,20 @@
     + Go In Action
 * Julia
     + https://julialang.org/learning/
-    + Mux.jl -- Webserver
-    + DataFrames.jl / DataTable.jl -- Data Manipulation
-    + Gadfly.jl -- Data Visualisation
-    + Octo.jl -- Database Driver
+    + Mux.jl
+    + DataFrames.jl / DataTable.jl
+    + Gadfly.jl
+    + Octo.jl
 * Postgresql
 
 ## Things to look into
-* Elixir -- Elixir In Action
-* Erlang -- https://learnyousomeerlang.com/
+* Elixir 
+    + Elixir In Action
+* Erlang
+    + https://learnyousomeerlang.com/
 * Rust
-* Elm -- Elm In Action
-* Tailwind CSS
+* Elm
+    + Elm In Action
 * Parquet
 
 ## Small learning projects
@@ -63,7 +65,7 @@
     + Webserver with Postgesql
 
 ## Go Discord Bot
-placeholder
+Should have built in commands and be able to create new command that return urls.
 
 ## Go Webserver
 Simple API for a Postgresql server that can Select, Update, Insert, Delete. 
