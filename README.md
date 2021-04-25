@@ -38,6 +38,7 @@
     }
     ```
 * vim
+    + https://danielmiessler.com/study/vim/
 * Go 
     + The Go Programming Language
     + Go In Action
