@@ -63,6 +63,7 @@
     + Webserver with Postgesql
 * Julia 
     + Webserver with Postgesql
+    + Sudoku Solver
 
 ## Go Discord Bot
 Should have built in commands and be able to create new command that return urls.
