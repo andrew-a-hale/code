@@ -31,6 +31,10 @@
         },
         "[python]": {
             "editor.rulers": [80]
+        },
+        "editor.fontFamily": "JetBrains Mono NL",
+        "editor.fontSize": 13,
+        "editor.fontLigatures": true
     }
     ```
 * vim
