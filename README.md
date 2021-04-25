@@ -52,6 +52,7 @@
 * Erlang -- https://learnyousomeerlang.com/
 * Rust
 * Elm -- Elm In Action
+* Tailwind CSS
 * Parquet
 
 ## Small learning projects
