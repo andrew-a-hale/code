@@ -1,10 +1,7 @@
 ## Things to learn
 * Using vscode with R
-    + https://medium.com/analytics-vidhya/a-fresh-start-for-r-in-vscode-ec61ed108cf6 
-    + r.rpath.windows should be r exe path
-    + r.rterm.windows should be radian
-    + https://stackoverflow.com/questions/29968499/vertical-rulers-in-visual-studio-code
-    ```json 
+    + settings.json
+    ```yaml 
     {
         "r.rterm.windows": "C:\\Users\\derpi\\AppData\\Local\\Programs\\Python\\Python39\\Scripts\\radian.exe",
         "r.bracketedPaste": true,
