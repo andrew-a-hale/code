@@ -3,7 +3,7 @@
     + settings.json
     ```yaml 
     {
-        "r.rterm.windows": "C:\\Users\\derpi\\AppData\\Local\\Programs\\Python\\Python39\\Scripts\\radian.exe",
+        "r.rterm.windows": "path\\to\\python\\Scripts\\radian.exe",
         "r.bracketedPaste": true,
         "r.sessionWatcher": true,
         "r.workspaceViewer.removeHiddenItems": true,
