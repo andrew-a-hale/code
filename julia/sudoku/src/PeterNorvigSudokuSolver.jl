@@ -1,7 +1,7 @@
 module PNSS
 
 function cross(A, B)
-    return [a*b for a ∈ A for b ∈ B]
+    return [a * b for a ∈ A for b ∈ B]
 end
 
 const digits = "123456789"
@@ -11,7 +11,7 @@ const squares = cross(rows, cols)
 const unitlist = vcat(
     [cross(rows, c) for c ∈ cols],
     [cross(r, cols) for r ∈ rows],
-    [cross(rs, cs) for rs ∈ ["ABC", "DEF", "GHI"] for cs ∈ ["123", "456", "789"]]
+    [cross(rs, cs) for rs ∈ ["ABC", "DEF", "GHI"] for cs ∈ ["123", "456", "789"]],
 )
 const units = Dict((s, [u for u ∈ unitlist if s ∈ u]) for s ∈ squares)
 const peers = Dict((s, setdiff(Set(reduce(vcat, units[s])), Set([s]))) for s ∈ squares)
@@ -38,7 +38,7 @@ function assign(values, s, d)
     other_values = replace(values[s], d => "")
     if any([eliminate(values, s, d2) == false for d2 ∈ other_values])
         return false
-    else 
+    else
         return values
     end
 end
@@ -49,9 +49,9 @@ function eliminate(values, s, d)
     end
     values[s] = replace(values[s], d => "")
     if length(values[s]) == 0
-        return false      
+        return false
     elseif length(values[s]) == 1
-        d2 = values[s]   
+        d2 = values[s]
         if any([eliminate(values, s2, d2) == false for s2 ∈ peers[s]])
             return false
         end
@@ -77,7 +77,7 @@ function search(values)
     if all(length(values[s]) == 1 for s ∈ squares)
         return values
     end
-    
+
     s = squares[1]
     n = digits
     for i ∈ keys(values)
@@ -96,7 +96,11 @@ function display(values)
     width = 1 + findmax([length(values[s]) for s ∈ squares])[1]
     for r ∈ rows
         for c ∈ cols
-            c == last(cols) ? println(center(values[r*c], width)) : print(center(values[r*c], width))
+            if c == last(cols)
+                println(center(values[r*c], width))
+            else
+                print(center(values[r*c], width))
+            end
         end
     end
 end

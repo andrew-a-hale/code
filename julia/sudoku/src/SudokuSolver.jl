@@ -26,7 +26,7 @@ end
 # Processing
 function read_sudoku(input::String)
     input_subgridsize = sqrt(sqrt(length(input)))
-    if (!isinteger(input_subgridsize)) 
+    if (!isinteger(input_subgridsize))
         error("give sudoku has unsupported dimension")
     end
     parsed_grid = map(x -> parse(UInt8, x), split(replace(input, '.' => '0'), ""))
@@ -41,16 +41,22 @@ end
 # Precomputation Helpers
 function row_indexes()
     range_offset = config.rows - config.one
-    map(x -> range(x * config.rows - range_offset, length = config.rows), range(config.one, length = config.rows))
+    map(
+        x -> range(x * config.rows - range_offset, length = config.rows),
+        range(config.one, length = config.rows),
+    )
 end
 
 function col_indexes()
-    map(x -> range(x, step = config.rows, length = config.rows), range(config.one, length = config.rows))
+    map(
+        x -> range(x, step = config.rows, length = config.rows),
+        range(config.one, length = config.rows),
+    )
 end
 
 ## looks inefficient
 function subgrid_indexes()
-    function mapper(x) 
+    function mapper(x)
         row_start = floor_nearest(row_from_cell(x), config.subgridsize)
         col_start = floor_nearest(col_from_cell(x), config.subgridsize)
         subgrid_rows = range(row_start, step = config.one, length = config.subgridsize)
@@ -67,9 +73,9 @@ function context_indexes()
         cell -> vcat(
             row_indexes()[row_from_cell(cell)],
             col_indexes()[col_from_cell(cell)],
-            subgrid_indexes()[cell]
+            subgrid_indexes()[cell],
         ),
-        range(config.one, length = config.size)
+        range(config.one, length = config.size),
     )
 end
 
@@ -97,13 +103,16 @@ end
 
 ## decompose into smaller functions
 function solve(sudoku::Sudoku)
-    if is_solved(sudoku) 
+    if is_solved(sudoku)
         return sudoku
     end
 
     # need to filter candidates
     # if in a whole row, col, or grid a cell value is unique it is the only candidate for cell
-    all_candidates = map(cell -> get_candidates(sudoku.current_grid, cell), range(config.one, length = config.size))
+    all_candidates = map(
+        cell -> get_candidates(sudoku.current_grid, cell),
+        range(config.one, length = config.size),
+    )
 
     # rewrite as function
     cell_to_change::UInt8 = findfirst(!isnothing, all_candidates)
@@ -117,7 +126,12 @@ function solve(sudoku::Sudoku)
     new_cell_candidates = all_candidates[cell_to_change]
 
     # rewrite as validator?
-    error = !isnothing(findfirst(cell -> isnothing(all_candidates[cell]) && sudoku.current_grid[cell] == config.zero, range(config.one, length = config.size)))
+    error =
+        !isnothing(findfirst(
+            cell ->
+                isnothing(all_candidates[cell]) && sudoku.current_grid[cell] == config.zero,
+            range(config.one, length = config.size),
+        ))
 
     # rewrite as validator
     if length(new_cell_candidates) == 1
@@ -183,7 +197,7 @@ function get_candidates(grid, cell)
     length(candidates) > 0 ? candidates : nothing
 end
 
-function make_guess(sudoku, cell) 
+function make_guess(sudoku, cell)
     candidates = get_candidates(sudoku.current_grid, cell)
     grid = deepcopy(sudoku.current_grid)
     if !isnothing(candidates)
@@ -210,13 +224,16 @@ function is_solved(sudoku::Sudoku)
 end
 
 function validate_grid(grid)
-    if config.zero ∈ grid 
+    if config.zero ∈ grid
         return false
     end
-    all(i -> validate_context(get_context(grid, i)), range(config.one, length = config.size))
+    all(
+        i -> validate_context(get_context(grid, i)),
+        range(config.one, length = config.size),
+    )
 end
 
-function validate_context(context) 
+function validate_context(context)
     row, col, subgrid = collect(Iterators.partition(context, config.rows))
     all(i -> length(unique(context[i])) == config.rows, [row, col, subgrid])
 end
@@ -230,7 +247,7 @@ function col_from_cell(cell)
     (cell - config.one) % config.rows + config.one
 end
 
-function floor_nearest(x, n) 
+function floor_nearest(x, n)
     (((x - config.one) ÷ n) * n) + config.one
 end
 
