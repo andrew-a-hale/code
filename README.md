@@ -1,6 +1,7 @@
 ## Things to learn
 * Using vscode with R
     + This doesn't seem worthwhile for R package development...
+    + Dissatisfaction with R grows for production code.
 * vim
     + https://danielmiessler.com/study/vim/
 * Go 
@@ -23,6 +24,7 @@
 * Elm
     + Elm In Action
 * Haskell
+    + http://learnyouahaskell.com/
 * Parquet
 
 ## Small learning projects
