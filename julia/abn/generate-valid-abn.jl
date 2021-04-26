@@ -13,7 +13,7 @@ function generate_abn()::Int
     return sum(s6[i] * 10^(length(s6)-i) for i in 1:length(s6))
 end
 
-function generate_abn(n::Int)::Array{Int64,1}
+function generate_abns(n::Int)::Array{Int64,1}
     x = Array{Int}(undef, n)
     for i = 1:n
         x[i] = generate_abn()

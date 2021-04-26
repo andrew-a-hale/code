@@ -1,7 +1,7 @@
 include("generate-valid-abn.jl")
 
 n = 1000
-abn = ABN.generate_abn(n)
+abn = ABN.generate_abns(n)
 
 fname = "./abn.txt"
 f = open(fname, "w")
