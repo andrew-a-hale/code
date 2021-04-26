@@ -1,23 +1,51 @@
+# simple problem in the functional style, function are pure
+
 library(magrittr)
 
-f <- function(x) {
-	purrr::modify_in(x, list("return_obj", "n"), `+`, as.numeric(x$state$a))
+#' @export
+some_procedure <- function(a, b, another_title_section = NULL) {
+	input <- parse_args(a, b, another_title_section)
+	init_output <- list(n = 0, title = "")
+  append(input, init_output) %>%
+    calculate_n() %>%
+    add_title() %>%
+		create_output()
 }
 
-g <- function(x) {
-	purrr::modify_in(x, list("return_obj", "n"), `*`, x$state$b)
+#' @keywords internal
+create_output <- function(x) {
+	paste0(x$title, " - n = ", x$n)
 }
 
-h <- function(x) {
-	purrr::assign_in(x, list("return_obj", "title"), "my title") %>%
-		purrr::pluck("return_obj")
+#' @keywords internal
+add_to_n <- function(x) {
+  purrr::modify_at(x, "n", `+`, as.numeric(x$a))
 }
 
-state <- list(a = "123", b = 123)
-return_obj <- list(n = 0, title = "")
-init <- list(return_obj = return_obj, state = state)
+#' @keywords internal
+multiply_on_n <- function(x) {
+  purrr::modify_at(x, "n", `*`, x$b)
+}
 
-init %>%
-	f() %>%
-	g() %>%
-	h()
+#' @keywords internal
+calculate_n <- purrr::compose(add_to_n, multiply_on_n, .dir = "forward")
+
+#' @keywords internal
+add_title <- function(x) {
+  purrr::list_modify(
+    x,
+    title = stringr::str_c("my title", x$another_title_section, sep = " - ")
+  )
+}
+
+#' @keywords internal
+parse_args <- function(...) {
+  args <- rlang::dots_list(..., .named = TRUE)
+  stopifnot(
+    "missing a" = exists("a", args),
+    "missing b" = exists("b", args)
+  )
+  args
+}
+
+some_procedure(a = "13", b = 123, another_title_section = "dynamic arg")
