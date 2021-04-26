@@ -1,52 +1,6 @@
 ## Things to learn
 * Using vscode with R
-    + settings.json
-    ```yaml 
-    {
-        "r.rterm.windows": "path\\to\\python\\Scripts\\radian.exe",
-        "r.bracketedPaste": true,
-        "r.sessionWatcher": true,
-        "r.workspaceViewer.removeHiddenItems": true,
-        "task.problemMatchers.neverPrompt": false,
-        "r.lsp.debug": true,
-        "r.lsp.diagnostics": true,
-        "r.rterm.option": [
-            "--no-save",
-            "--no-restore",
-            "--r-binary=C:\\Program Files\\R\\R-4.0.3\\bin\\R.exe"
-        ],
-        "r.rpath.windows": "C:\\Program Files\\R\\R-4.0.3\\bin\\R.exe",
-        "editor.minimap.maxColumn": 80,
-        "[r]": {
-            "editor.rulers": [80]
-        },
-        "[julia]": {
-            "editor.rulers": [80]
-        },
-        "[go]": {
-            "editor.rulers": [80]
-        },
-        "[python]": {
-            "editor.rulers": [80]
-        },
-        "editor.fontFamily": "JetBrains Mono NL",
-        "editor.fontSize": 13,
-        "editor.fontLigatures": true,
-        "r.source.focus": "none",
-        "terminal.integrated.cursorStyle": "underline",
-        "terminal.integrated.rendererType": "canvas",
-        "editor.tabSize": 2
-    }
-    ```
-    + lintr
-    ```yaml
-    linters: with_defaults(
-        object_name_linter = NULL,
-        object_length_linter = NULL,
-        line_length_linter = line_length_linter(80),
-        no_tab_linter = NULL
-      )
-  ```
+    + This doesn't seem worthwhile for R package development...
 * vim
     + https://danielmiessler.com/study/vim/
 * Go 
@@ -68,6 +22,7 @@
 * Rust
 * Elm
     + Elm In Action
+* Haskell
 * Parquet
 
 ## Small learning projects
