@@ -31,9 +31,22 @@
         },
         "editor.fontFamily": "JetBrains Mono NL",
         "editor.fontSize": 13,
-        "editor.fontLigatures": true
+        "editor.fontLigatures": true,
+        "r.source.focus": "none",
+        "terminal.integrated.cursorStyle": "underline",
+        "terminal.integrated.rendererType": "canvas",
+        "editor.tabSize": 2
     }
     ```
+    + lintr
+    ```yaml
+    linters: with_defaults(
+        object_name_linter = NULL,
+        object_length_linter = NULL,
+        line_length_linter = line_length_linter(80),
+        no_tab_linter = NULL
+      )
+  ```
 * vim
     + https://danielmiessler.com/study/vim/
 * Go 
