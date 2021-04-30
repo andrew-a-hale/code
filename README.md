@@ -7,7 +7,7 @@
 * Julia
     + https://julialang.org/learning/
     + Mux.jl
-    + DataFrames.jl / DataTable.jl
+    + DataFrames.jl
     + Gadfly.jl
     + Octo.jl
 * Postgresql
