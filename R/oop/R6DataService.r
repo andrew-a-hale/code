@@ -2,15 +2,11 @@ DataService <- R6::R6Class(
   public = list(
     initialize = function() {
       require(AHD.reporting)
+      future::plan(future::multisession)
     },
     #' @description
-    #' Workhorse function to fetch data. If the data refers to a sql query
-    #' then the fetchSQL private method is called.
-    #' @param ... Ordered list of args. The first element is expected to be a
-    #' dataset that is loadable with \code{get} or a sql query. If it is a
-    #' sql query then the first arg must be the name of the sql query and
-    #' and further arguments must be ordered according to order they are
-    #' substituted into the query (same as \code{dbBind}).
+    #' Wraper function to fetch data in various different ways.
+    #' @param ... Ordered list of args. See private methods for further details.
     #' @examples
     #' fetch("iris")
     #' fetch("mtcars")
@@ -23,21 +19,31 @@ DataService <- R6::R6Class(
         private$fetchSQL(private$connPool, !!!args)
       } else if (class(args[[1]]) == "URL") {
         private$fetchURL(args[[1]])
+      } else if (class(args[[1]]) == "function") {
+        private$fetchFunction(!!!args)
       } else {
         args[[1]]
       }
     },
     #' @description
-    #' method to perform multiple fetches at once
-    #' @param ... A list of multiple fetches. See \code{fetch}
+    #' method to perform multiple async fetches at once
+    #' @param ... A list of multiple fetches. See `fetch`
     #' @examples
     #' fetchAll(list("iris"), list("mtcars"))
     fetchAll = function(...) {
-      purrr::map(rlang::dots_list(...), ~ self$fetch(!!!.x))
+      furrr::future_map(
+        rlang::dots_list(...),
+        ~ self$fetch(!!!.x),
+        .options = furrr::furrr_options(
+          globals = c(
+            "AHD.reporting",
+            purrr::map_chr(list(...), purrr::pluck, 1, 1)
+          )
+        )
+      )
     }
   ),
   private = list(
-    connPool = structure("valid connection", class = "Pool"),
     #' @description
     #' unload packages and close db connections
     finalize = function() {
@@ -45,7 +51,9 @@ DataService <- R6::R6Class(
     },
     #' @description
     #' fetch from sql db
-    fetchSQL = function(conn, ...) {
+    fetchSQL = function(...) {
+      conn <- structure("sql connection", class = "dbConn")
+      Sys.sleep(2)
       cat("is SQL\n")
       cat(conn)
       cat("\n")
@@ -57,6 +65,10 @@ DataService <- R6::R6Class(
       call <- curl::curl_fetch_memory(url)
       cat(rawToChar(call$headers))
       rawToChar(call$content)
+    },
+    fetchFunction = function(...) {
+      args <- rlang::dots_list(...)
+      do.call(args[[1]], args[-1])
     }
   ),
   active = list(
@@ -69,21 +81,38 @@ DataService <- R6::R6Class(
   cloneable = FALSE
 )
 
-query <- DBI::SQL("SELECT 1")
-url <- structure("http://httpbin.org/get?a=1", class = "URL")
 dataService <- DataService$new()
 dataService$datasets
-d1 <- dataService$fetch("iris")
-d2 <- dataService$fetch("mtcars")
-d3 <- dataService$fetch("query", a = 1)
-colours <- dataService$fetch("ahdColourSeq")
-get <- dataService$fetch("url")
+
+query <- DBI::SQL("SELECT 1")
+url <- structure("http://httpbin.org/get?a=1", class = "URL")
+getIris <- function(filters) iris %>% dplyr::filter(!!!filters)
+filters <- list(rlang::quo(Species == "setosa"), rlang::quo(Petal.Width >= 0.5))
+
+system.time({
+  dataService <- DataService$new()
+  d1 <- dataService$fetch("iris")
+  d2 <- dataService$fetch("mtcars")
+  d3 <- dataService$fetch("query", a = 1)
+  d4 <- dataService$fetch("query", a = 1)
+  d5 <- dataService$fetch("query", a = 1)
+  colours <- dataService$fetch("ahdColourSeq")
+  get <- dataService$fetch("url")
+  filteredIris <- dataService$fetch("getIris", filters)
+})
 
 library(zeallot)
-c(iris, mtcars, df, colours, get) %<-% dataService$fetchAll(
-  list(name = "iris"),
-  list(name = "mtcars"),
-  list(name = "query", a = 1),
-  list(name = "ahdColourSeq"),
-  list("url")
-)
+system.time({
+  dataService <- DataService$new()
+  dataService$fetchAll(
+    list(name = "iris"),
+    list(name = "mtcars"),
+    list(name = "query", a = 1),
+    list(name = "query", a = 2),
+    list(name = "query", a = 3),
+    list(name = "ahdColourSeq"),
+    list("url"),
+    list("getIris", filters)
+  ) %->%
+    c(iris, mtcars, df1, df2, df3, colours, get, filteredIris)
+})
