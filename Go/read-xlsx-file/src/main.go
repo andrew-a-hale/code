@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/denisenkom/go-mssqldb"
+	mssql "github.com/denisenkom/go-mssqldb"
 	"github.com/tealeg/xlsx"
 )
 
