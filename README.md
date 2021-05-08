@@ -27,6 +27,7 @@
 
 ## Small learning projects
 * Go
+    + Simple ELT Procedure for USDA data
     + Discord Bot
     + Webserver with Postgesql
     + Webserver with GraphQL
