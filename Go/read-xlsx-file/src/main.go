@@ -16,10 +16,8 @@ import (
 
 func main() {
 	csvFileName := xlsxToCsv("file.xlsx")
-	checkCsv(csvFileName)
-
 	db := openSqlDb()
-
+	checkCsv(csvFileName)
 	csvToDb(csvFileName, db)
 }
 
@@ -48,10 +46,7 @@ func xlsxToCsv(fileName string) string {
 				v += ","
 			}
 			if _, err := w.Write([]byte(v)); err != nil {
-				panic("error at line " +
-					strconv.Itoa(irow) +
-					" cell " +
-					strconv.Itoa(icell))
+				panic("error at line " + strconv.Itoa(irow) + " cell " + strconv.Itoa(icell))
 			}
 		}
 		// add line terminator
