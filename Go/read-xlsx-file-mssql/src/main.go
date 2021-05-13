@@ -1,4 +1,4 @@
-// xlsx etl to db
+// xlsx etl to mssql
 package main
 
 import (
