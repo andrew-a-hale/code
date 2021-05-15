@@ -1,11 +1,10 @@
 ## Things to learn
-* vim
-    + https://danielmiessler.com/study/vim/
 * Go 
     + The Go Programming Language
     + Go In Action
 * Julia
     + https://julialang.org/learning/
+    + Design Patterns and Best Practices with Julia
     + Mux.jl
     + DataFrames.jl
     + Gadfly.jl
