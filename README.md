@@ -23,7 +23,8 @@
     + Elm In Action
 * Haskell
     + http://learnyouahaskell.com/
-* Parquet
+* Spark, Parquet, Arvo
+* Scala
 
 ## Small learning projects
 * Go
