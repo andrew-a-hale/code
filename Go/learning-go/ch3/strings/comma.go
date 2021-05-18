@@ -2,11 +2,9 @@
 package main
 
 import (
-	"bytes"	
+	"bytes"
 	"strings"
 )
-
-
 
 func main() {
 	println(buffercomma("1234.12"))
@@ -39,7 +37,7 @@ func buffercomma(s string) string {
 			buf.WriteString(s[i:])
 			return buf.String()
 		}
-		if (n-i)%3==0 && i > 0 {
+		if (n-i)%3 == 0 && i > 0 {
 			buf.WriteRune(',')
 		}
 		buf.WriteRune(j)
