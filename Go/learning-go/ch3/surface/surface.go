@@ -30,7 +30,7 @@ func main() {
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
-func makesvg(out io.Writer) io.Writer {
+func makesvg(out io.Writer) {
 	svg := fmt.Sprintf("<svg xmlns='http://www.w3.org/2000/svg' style='stroke: grey; fill: white; stroke-width: 0.7' width='%d' height='%d'>", width, height)
 	for i := 0; i < cells; i++ {
 		for j := 0; j < cells; j++ {
@@ -47,7 +47,6 @@ func makesvg(out io.Writer) io.Writer {
 	}
 	svg += "</svg>"
 	out.Write([]byte(svg))
-	return out
 }
 
 func corner(i, j int) (float64, float64, float64) {

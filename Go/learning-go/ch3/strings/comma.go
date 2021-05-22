@@ -8,6 +8,9 @@ import (
 
 func main() {
 	println(buffercomma("1234.12"))
+	println(buffercomma("1.12"))
+	println(buffercomma("12.12"))
+	println(buffercomma("123.12"))
 	println(buffercomma("+123422.12"))
 	println(buffercomma("1234.133452"))
 	println(buffercomma("-123422.12"))

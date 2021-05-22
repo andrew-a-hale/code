@@ -31,19 +31,20 @@ func makepng(w io.Writer, r *http.Request) {
 			x := float64(px)/width*(xmax-xmin) + xmin
 			z := complex(x, y)
 			// Image point (px, py) represents complex value z.
-			img.Set(px, py, mandelbrot(z))
-			img.Set(px, py+1, mandelbrot(z))
-			img.Set(px, py+2, mandelbrot(z))
-			img.Set(px, py+3, mandelbrot(z))
-			img.Set(px+1, py+1, mandelbrot(z))
-			img.Set(px+1, py+2, mandelbrot(z))
-			img.Set(px+1, py+3, mandelbrot(z))
-			img.Set(px+2, py+1, mandelbrot(z))
-			img.Set(px+2, py+2, mandelbrot(z))
-			img.Set(px+2, py+3, mandelbrot(z))
-			img.Set(px+3, py+1, mandelbrot(z))
-			img.Set(px+3, py+2, mandelbrot(z))
-			img.Set(px+3, py+3, mandelbrot(z))
+			pz := mandelbrot(z)
+			img.Set(px, py, pz)
+			img.Set(px, py+1, pz)
+			img.Set(px, py+2, pz)
+			img.Set(px, py+3, pz)
+			img.Set(px+1, py+1, pz)
+			img.Set(px+1, py+2, pz)
+			img.Set(px+1, py+3, pz)
+			img.Set(px+2, py+1, pz)
+			img.Set(px+2, py+2, pz)
+			img.Set(px+2, py+3, pz)
+			img.Set(px+3, py+1, pz)
+			img.Set(px+3, py+2, pz)
+			img.Set(px+3, py+3, pz)
 			px += 4
 		}
 		py += 4
