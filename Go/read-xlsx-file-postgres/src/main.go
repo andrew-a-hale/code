@@ -1,4 +1,4 @@
-// xlsx etl to mssql
+// xlsx etl to postgres
 package main
 
 import (
@@ -8,21 +8,57 @@ import (
 	"fmt"
 	"os"
 	"strconv"
-	"time"
 
 	"github.com/lib/pq"
 	"github.com/tealeg/xlsx"
 )
 
 func main() {
-	csvFileName := xlsxToCsv("file.xlsx")
 	db := openSqlDb()
-	checkCsv(csvFileName)
-	csvToDb(csvFileName, db)
+	xlsxToDb("file.xlsx", db)
+}
+
+// xlsx to db
+func xlsxToDb(fileName string, db *sql.DB) {
+	file, err := xlsx.OpenFile(fileName)
+	if err != nil {
+		panic(err)
+	}
+	if len(file.Sheets) > 1 {
+		panic("expect 1 sheet")
+	}
+	sheet := file.Sheets[0]
+	firstrow := sheet.Row(0)
+	txn, err := db.Begin()
+	if err != nil {
+		panic(err)
+	}
+	stmt, _ := txn.Prepare(pq.CopyIn("table", firstrow.Cells[0].Value, firstrow.Cells[1].Value, firstrow.Cells[2].Value, firstrow.Cells[3].Value, firstrow.Cells[4].Value))
+
+	for i := 1; i < sheet.MaxRow; i++ {
+		row := sheet.Row(i)
+		if _, err := stmt.Exec(row.Cells[0].Value, row.Cells[1].Value, row.Cells[2].Value, row.Cells[3].Value, row.Cells[4].Value); err != nil {
+			panic(err)
+		}
+	}
+
+	result, err := stmt.Exec()
+	if err != nil {
+		panic(err)
+	}
+	if err := stmt.Close(); err != nil {
+		panic(err)
+	}
+	if err := txn.Commit(); err != nil {
+		panic(err)
+	}
+	rowCount, _ := result.RowsAffected()
+	print(rowCount)
+	println(" row copied")
 }
 
 // convert xlsx to csv
-func xlsxToCsv(fileName string) string {
+func XlsxToCsv(fileName string) string {
 	const lineTerminator = "\r\n"
 	file, err := xlsx.OpenFile(fileName)
 	if err != nil {
@@ -61,14 +97,8 @@ func xlsxToCsv(fileName string) string {
 	return fo.Name()
 }
 
-// validate csv return nil or error
-func checkCsv(csv string) {
-	os.Chtimes(csv, time.Now(), time.Now())
-	// add more here later
-}
-
 // import csv into sql table
-func csvToDb(csvFileName string, db *sql.DB) {
+func CsvToDb(csvFileName string, db *sql.DB) {
 	f, _ := os.Open(csvFileName)
 	rs := csv.NewReader(f)
 	records, err := rs.ReadAll()
