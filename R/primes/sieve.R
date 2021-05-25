@@ -1,14 +1,13 @@
 go <- function(n) {
-  if (n <= 2) {
-    return(2)
+  if (n <= 2L) {
+    return(2L)
   }
-  primes <- c()
   nums <- seq.int(2, n)
   N <- as.integer(ceiling(sqrt(n)))
   for (i in 2L:N) {
     nums <- nums[!(nums %% i == 0L)]
   }
-  return(c(primes, nums, go(N)))
+  return(c(nums, go(N)))
 }
 
 system.time(go(10L))
