@@ -1,7 +1,5 @@
 go <- function(n) {
-  if (n <= 2L) {
-    return(2L)
-  }
+  if (n <= 2L) return(2L)
   nums <- seq.int(2, n)
   N <- as.integer(ceiling(sqrt(n)))
   for (i in 2L:N) {
