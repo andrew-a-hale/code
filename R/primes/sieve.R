@@ -3,7 +3,8 @@ go <- function(n) {
   nums <- seq.int(2, n)
   N <- as.integer(ceiling(sqrt(n)))
   for (i in 2L:N) {
-    nums <- nums[!(nums %% i == 0L)]
+    nums <- nums[nums %% i > 0L]
+    print(length(nums))
   }
   return(c(nums, go(N)))
 }
